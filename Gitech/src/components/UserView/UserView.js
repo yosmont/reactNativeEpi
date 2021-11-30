@@ -19,14 +19,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    //justifyContent: 'top',
     justifyContent: 'flex-start',
     padding: 10
   },
   box: {
     flex: 0,
     backgroundColor: '#808080',
-    //alignItems: 'left',
     alignItems: 'flex-start',
     justifyContent: 'center',
     width: Dimensions.get('window').width,
