@@ -23,7 +23,7 @@ const Login = (props) => (
 
     <StatusBar style="auto" />
 
-    <LimitedWidthCustomButton onPress={() => props.navigation.navigate('UserView', { username: "yosmont", loginProfile: "true", octokitAuth: octokit.auth })} Text="Your profile" />
+    <LimitedWidthCustomButton onPress={() => props.navigation.navigate('UserView', { username: "", loginProfile: "true", octokitAuth: octokit.auth })} Text="Your profile" />
   </Wrapper>
 );
 

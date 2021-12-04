@@ -30,9 +30,15 @@ const UserView = (props) => {
     const [user, onUserLoaded] = React.useState("Loading");
     const [starredCount, onStarredLoaded] = React.useState("Loading");
     const [watchedCount, onWatchedLoaded] = React.useState("Loading");
-    octokit.rest.users.getByUsername({ username: username }).then((value) => {
-        onUserLoaded(value.data);
-    });
+    if (loginProfile == "true") {
+        octokit.rest.users.getAuthenticated().then((value) => {
+            onUserLoaded(value.data);
+        });
+    } else {
+        octokit.rest.users.getByUsername({ username: username }).then((value) => {
+            onUserLoaded(value.data);
+        });
+    }
     octokit.rest.activity.listReposStarredByUser({ username: username, per_page: 1 }).then((value) => {
         onStarredLoaded(GetNbOfPage(value.headers.link));
     });
@@ -43,7 +49,7 @@ const UserView = (props) => {
         return (
             <View style={styles.container}>
                 <Image source={{ uri: user.avatar_url }} style={{ width: 100, height: 100, borderRadius: 50, alignItems: 'center' }} />
-                <Text>Hello {username}!</Text>
+                <Text>Hello {user.login}!</Text>
                 <ReposListButton reposNb={user.public_repos} reposType="" />
                 <ReposListButton reposNb={starredCount} reposType="Star" />
                 <ReposListButton reposNb={watchedCount} reposType="Watch" />
