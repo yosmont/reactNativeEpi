@@ -3,7 +3,6 @@ import {StatusBar} from "expo-status-bar";
 import { LargeText, Wrapper } from "./styles";
 import CustomTextInput from "@components/CustomTextInput";
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
-import { Button } from 'react-native';
 
 const { Octokit } = require("@octokit/rest");
 
