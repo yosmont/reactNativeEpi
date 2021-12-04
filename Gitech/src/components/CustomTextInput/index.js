@@ -6,7 +6,7 @@ class CustomTextInput extends Component {
     return (
       <SafeAreaView>
         <Text>{this.props.text}</Text>
-        <TextInput placeholder="tokens" />
+        <TextInput placeholder={this.props.placeholder} onChangeText={this.props.onValueChange} />
       </SafeAreaView>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, Dimensions, Pressable } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
 
 const styles = StyleSheet.create({
   box: {
@@ -7,14 +7,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#808080',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    width: Dimensions.get('window').width,
+    width: 300,
+    height: 30,
     borderRadius: 10,
     margin: 10,
     padding: 20
   }
 });
 
-const FullWidthCustomButton = (props) => {
+const LimitedWidthCustomButton = (props) => {
     return (
         <Pressable onPress={props.onPress} style={styles.box}>
             <Text>{props.Text}</Text>
@@ -22,4 +23,4 @@ const FullWidthCustomButton = (props) => {
     );
 }
 
-export default FullWidthCustomButton;
+export default LimitedWidthCustomButton;

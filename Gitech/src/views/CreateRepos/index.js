@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 
-import CustomInlineTextInput from '../CustomInlineTextInput/CustomInlineTextInput';
-import CustomSwitchInput from '../CustomSwitchInput/CustomSwitchInput';
-import LimitedWidthCustomButton from "../LimitedWidthCustomButton/LimitedWidthCustomButton";
+import CustomInlineTextInput from '@components/CustomInlineTextInput';
+import CustomSwitchInput from '@components/CustomSwitchInput';
+import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
 
 const { Octokit } = require("@octokit/rest");
-
-const octokit = new Octokit ({
-    auth: "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"
-})
 
 const styles = StyleSheet.create({
     container: {
@@ -50,7 +46,7 @@ class CreateReposData {
     allow_auto_merge = true;
 }
 
-function CreateReposWithData(data) {
+function CreateReposWithData(data, octokit) {
     if (typeof data.name === 'undefined') {
         alert("one Required input is empty")
     } else {
@@ -64,6 +60,9 @@ function CreateReposWithData(data) {
 }
 
 const CreateRepos = (props) => {
+    const octokit = new Octokit({
+        auth: props.route.params.octokitAuth
+    });
     let data = {};
     return (
         <View style={styles.container}>
@@ -88,7 +87,7 @@ const CreateRepos = (props) => {
             <CustomSwitchInput text='Allow Delete Branch on Merge' value='true' onValueChange={(value) => data.delete_branch_on_merge = value} />
             <CustomSwitchInput text='Enable download' value='true' onValueChange={(value) => data.has_downloads = value} />
             <CustomSwitchInput text='Is a template' onValueChange={(value) => data.is_template = value} />
-            <LimitedWidthCustomButton onPress={() => CreateReposWithData(data)} Text="Create a new repos" />
+            <LimitedWidthCustomButton onPress={() => CreateReposWithData(data, octokit)} Text="Create a new repos" />
         </View>
     );
 }

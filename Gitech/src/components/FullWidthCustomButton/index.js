@@ -7,15 +7,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#808080',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    width: 300,
-    height: 30,
+    width: Dimensions.get('window').width,
     borderRadius: 10,
     margin: 10,
     padding: 20
   }
 });
 
-const LimitedWidthCustomButton = (props) => {
+const FullWidthCustomButton = (props) => {
     return (
         <Pressable onPress={props.onPress} style={styles.box}>
             <Text>{props.Text}</Text>
@@ -23,4 +22,4 @@ const LimitedWidthCustomButton = (props) => {
     );
 }
 
-export default LimitedWidthCustomButton;
+export default FullWidthCustomButton;
