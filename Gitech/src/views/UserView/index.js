@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 
 import CreateReposButton from "@components/UserView/CreateReposButton";
@@ -31,20 +31,30 @@ const UserView = (props) => {
     const [starredCount, onStarredLoaded] = React.useState("Loading");
     const [watchedCount, onWatchedLoaded] = React.useState("Loading");
     if (loginProfile == "true") {
-        octokit.rest.users.getAuthenticated().then((value) => {
-            onUserLoaded(value.data);
-        });
+        useEffect(() => {
+            octokit.rest.users.getAuthenticated().then((value) => {
+                onUserLoaded(value.data);
+            });
+            octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then((value) => {
+                onStarredLoaded(GetNbOfPage(value.headers.link));
+            });
+            octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
+                onWatchedLoaded(GetNbOfPage(value.headers.link));
+            });
+        }, []);
     } else {
-        octokit.rest.users.getByUsername({ username: username }).then((value) => {
-            onUserLoaded(value.data);
-        });
+        useEffect(() => {
+            octokit.rest.users.getByUsername({ username: username }).then((value) => {
+                onUserLoaded(value.data);
+            });
+            octokit.rest.activity.listReposStarredByUser({ username: username, per_page: 1 }).then((value) => {
+                onStarredLoaded(GetNbOfPage(value.headers.link));
+            });
+            octokit.rest.activity.listReposWatchedByUser({ username: username, per_page: 1 }).then((value) => {
+                onWatchedLoaded(GetNbOfPage(value.headers.link));
+            });
+        }, []);
     }
-    octokit.rest.activity.listReposStarredByUser({ username: username, per_page: 1 }).then((value) => {
-        onStarredLoaded(GetNbOfPage(value.headers.link));
-    });
-    octokit.rest.activity.listReposWatchedByUser({ username: username, per_page: 1 }).then((value) => {
-        onWatchedLoaded(GetNbOfPage(value.headers.link));
-    });
     if (loginProfile == "true") {
         return (
             <View style={styles.container}>
