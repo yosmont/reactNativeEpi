@@ -18,27 +18,34 @@ const styles = StyleSheet.create({
 });
 
 function GetNbOfPage(linkStr) {
-    return parseInt(linkStr.slice(linkStr.lastIndexOf("&page=") + 6, -13))
+
+    if (linkStr == null) {
+        return (0);
+    }
+    return parseInt(linkStr.slice(linkStr.lastIndexOf("&page=") + 6, -13));
 }
 
 const UserView = (props) => {
+
     const octokit = new Octokit({
         auth: props.route.params.octokitAuth
     });
+
     const username = props.route.params.username;
     const loginProfile = props.route.params.loginProfile;
     const [user, onUserLoaded] = React.useState("Loading");
     const [starredCount, onStarredLoaded] = React.useState("Loading");
     const [watchedCount, onWatchedLoaded] = React.useState("Loading");
+
     if (loginProfile == "true") {
         useEffect(() => {
             octokit.rest.users.getAuthenticated().then((value) => {
                 onUserLoaded(value.data);
             });
-            octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then((value) => {
+            octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then( (value) => {
                 onStarredLoaded(GetNbOfPage(value.headers.link));
             });
-            octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
+            octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then( (value) => {
                 onWatchedLoaded(GetNbOfPage(value.headers.link));
             });
         }, []);
@@ -47,10 +54,10 @@ const UserView = (props) => {
             octokit.rest.users.getByUsername({ username: username }).then((value) => {
                 onUserLoaded(value.data);
             });
-            octokit.rest.activity.listReposStarredByUser({ username: username, per_page: 1 }).then((value) => {
-                onStarredLoaded(GetNbOfPage(value.headers.link));
+            octokit.rest.activity.listReposStarredByUser({ username: username, per_page: 1 }).then( (value) => {
+                onStarredLoaded( GetNbOfPage(value.headers.link));
             });
-            octokit.rest.activity.listReposWatchedByUser({ username: username, per_page: 1 }).then((value) => {
+            octokit.rest.activity.listReposWatchedByUser({ username: username, per_page: 1 }).then( (value) => {
                 onWatchedLoaded(GetNbOfPage(value.headers.link));
             });
         }, []);
