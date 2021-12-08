@@ -1,23 +1,9 @@
 import React from 'react';
-import { Text, StyleSheet, Pressable } from 'react-native';
-
-const styles = StyleSheet.create({
-  box: {
-    flex: 0,
-    backgroundColor: '#808080',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    width: 300,
-    height: 30,
-    borderRadius: 10,
-    margin: 10,
-    padding: 20
-  }
-});
+import { Text, Pressable } from './styles'
 
 const LimitedWidthCustomButton = (props) => {
     return (
-        <Pressable onPress={props.onPress} style={styles.box}>
+        <Pressable onPress={props.onPress}>
             <Text>{props.Text}</Text>
         </Pressable>
     );

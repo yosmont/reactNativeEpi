@@ -1,10 +1,15 @@
 import styled from 'styled-components/native';
 
 export const TextInput = styled.TextInput`
-  border-bottom-color: black;
-  border-bottom-width: 2px;
-  width: 300px;
-  height: 30px;
+  background-color: black;
+  border-width: 1px;
+  border-color: grey;
+  border-radius: 6px;
+  width: 100%;
+  line-height: 20px;
+  padding: 5px 12px;
+  vertical-align: middle;
+  color: white;
 `;
 
 export const SafeAreaView = styled.SafeAreaView`
@@ -14,4 +19,5 @@ export const SafeAreaView = styled.SafeAreaView`
 
 export const Text = styled.Text`
   margin-bottom: 25px;
+  color: white;
 `

@@ -1,21 +1,62 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Login from '@views/login';
 import UserView from '@views/UserView';
 import CreateRepos from '@views/CreateRepos';
+import Repository from "@views/repository";
 
-const MainStack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const Routes = () => {
-  const { Navigator, Screen } = MainStack;
+  const { Navigator, Screen } = Stack;
 
   return (
       <Navigator>
-          <Screen component={Login} name="Login" />
-          <Screen component={UserView} name="UserView" />
-          <Screen component={CreateRepos} name="CreateRepos" />
+          <Screen
+            component={Login}
+            name="Login"
+            options={{
+              headerStyle: {
+                backgroundColor: '#2b2b2b'
+              },
+              headerTintColor: '#fff'
+            }}
+          />
+          <Screen
+            component={UserView}
+            name="UserView"
+            options={{
+              title: 'User',
+              headerStyle: {
+                backgroundColor: '#2b2b2b'
+              },
+              headerTintColor: '#fff'
+            }}
+          />
+          <Screen
+            component={CreateRepos}
+            name="CreateRepos"
+            options={{
+              title: 'Create a repository',
+              headerStyle: {
+                backgroundColor: '#2b2b2b'
+              },
+              headerTintColor: '#fff'
+            }}
+          />
+          <Screen
+            component={Repository}
+            name="Repository"
+            options={{
+              headerStyle: {
+                backgroundColor: '#2b2b2b'
+              },
+              headerTintColor: '#fff'
+            }}
+          />
     </Navigator>
   );
 };
 
 export default Routes;
+
