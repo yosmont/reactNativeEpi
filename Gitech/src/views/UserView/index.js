@@ -5,6 +5,7 @@ import CreateReposButton from "@components/UserView/CreateReposButton";
 import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
 import {ActivityIndicator} from "react-native";
+import SearchReposButton from "@components/UserView/SearchReposButton";
 
 function GetNbOfPage(linkStr) {
 
@@ -24,7 +25,6 @@ const UserView = (props) => {
     useEffect( () => {
         if (username) {
           octokit.rest.users.getByUsername({ username: username }).then((value) => {
-            console.log(value.data);
             onUserLoaded(value.data);
           });
           octokit.rest.activity.listReposWatchedByUser({ username: username, per_page: 1 }).then((value) => {
@@ -61,7 +61,8 @@ const UserView = (props) => {
             <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} />
             <UsersListButton navigation={props.navigation} userNb={user.following} userType="Follow" />
             <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Following by" />
-            <CreateReposButton navigation={props.navigation} />
+            <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
+            <SearchReposButton navigation={props.navigation} octokit={octokit} />
           </UserWrapper>
           :
           <ActivityIndicator size='large' color='#457cb7' />

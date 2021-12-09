@@ -4,6 +4,7 @@ import Login from '@views/login';
 import UserView from '@views/UserView';
 import CreateRepos from '@views/CreateRepos';
 import Repository from "@views/repository";
+import SearchRepo from "@views/SearchRepo";
 import RepositoryCode from "@views/repository/code";
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,17 @@ const Routes = () => {
             component={Repository}
             name="Repository"
             options={{
+              headerStyle: {
+                backgroundColor: '#2b2b2b'
+              },
+              headerTintColor: '#fff'
+            }}
+          />
+          <Screen
+            component={SearchRepo}
+            name="SearchRepo"
+            options={{
+              title: 'Search a repository',
               headerStyle: {
                 backgroundColor: '#2b2b2b'
               },

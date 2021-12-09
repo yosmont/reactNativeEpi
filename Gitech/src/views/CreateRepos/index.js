@@ -1,9 +1,11 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 import CustomInlineTextInput from '@components/CustomInlineTextInput';
 import CustomSwitchInput from '@components/CustomSwitchInput';
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
+import { Wrapper, Text } from './styles';
+// import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
 const { Octokit } = require("@octokit/rest");
 
@@ -16,7 +18,9 @@ const styles = StyleSheet.create({
         padding: 10
     },
     large_Text: {
-        fontSize: 30
+        fontSize: 30,
+        color: '#fff',
+        marginBottom: 20
     },
     subTitleText: {
         alignItems: 'flex-start',
@@ -25,7 +29,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 5,
         paddingTop: 20,
-        paddingBottom: 5
+        paddingBottom: 5,
+        color: '#fff'
     }
 });
 
@@ -65,12 +70,12 @@ const CreateRepos = (props) => {
     });
     let data = {};
     return (
-        <View style={styles.container}>
+        <Wrapper>
             <ScrollView>
                 <Text style={styles.large_Text} >Create a GitHub Repos</Text>
                 <Text style={styles.subTitleText}>Required:</Text>
                 <CustomInlineTextInput text='Name' onValueChange={(value) => data.name = value} />
-                <LimitedWidthCustomButton onPress={() => CreateReposWithData(data)} Text="Create a new repos" />
+                <LimitedWidthCustomButton onPress={() => CreateReposWithData(data, octokit)} Text="Create a new repos" />
                 <Text style={styles.subTitleText}>Not required:</Text>
                 <CustomInlineTextInput text='Description' onValueChange={(value) => data.description = value} />
                 <CustomInlineTextInput text='Homepage URL' onValueChange={(value) => data.homepage = value} />
@@ -90,7 +95,7 @@ const CreateRepos = (props) => {
                 <CustomSwitchInput text='Is a template' onValueChange={(value) => data.is_template = value} />
                 <LimitedWidthCustomButton onPress={() => CreateReposWithData(data, octokit)} Text="Create a new repos" />
             </ScrollView>
-        </View>
+        </Wrapper>
     );
 }
 

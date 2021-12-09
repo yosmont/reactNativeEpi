@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 2,
         alignItems: 'flex-end',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#8f8d8c'
     },
     safeAreaStyle: {
         paddingBottom: 10,
@@ -16,7 +17,8 @@ const styles = StyleSheet.create({
         height: 30
     },
     textStyle: {
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        color: '#FFF'
     }
 });
 
