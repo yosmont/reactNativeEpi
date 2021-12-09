@@ -5,7 +5,7 @@ import CustomInlineTextInput from '@components/CustomInlineTextInput';
 import CustomSwitchInput from '@components/CustomSwitchInput';
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
 import { Wrapper, Text } from './styles';
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+// import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
 const { Octokit } = require("@octokit/rest");
 

@@ -4,6 +4,7 @@ import { Wrapper, Image, Text } from './styles';
 import CreateReposButton from "@components/UserView/CreateReposButton";
 import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
+import SearchReposButton from "@components/UserView/SearchReposButton";
 
 const { Octokit } = require("@octokit/rest");
 
@@ -67,6 +68,7 @@ const UserView = (props) => {
             <UsersListButton navigation={props.navigation} userNb={user.following} userType="Follow" />
             <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Following by" />
             <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
+            <SearchReposButton navigation={props.navigation} octokit={octokit} />
         </Wrapper>
     );
 }
