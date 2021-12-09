@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
         height: 30
     },
     textStyle: {
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        color: '#FFF'
     }
 });
 
