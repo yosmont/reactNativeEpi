@@ -24,6 +24,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-web": "0.17.1",
+    "recyclerlistview": "^3.0.5",
     "styled-components": "^5.3.3",
     "yet": "^0.1.0"
   },
