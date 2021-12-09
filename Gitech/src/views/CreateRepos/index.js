@@ -93,7 +93,7 @@ const CreateRepos = (props) => {
                 <CustomSwitchInput text='Allow Delete Branch on Merge' value='true' onValueChange={(value) => data.delete_branch_on_merge = value} />
                 <CustomSwitchInput text='Enable download' value='true' onValueChange={(value) => data.has_downloads = value} />
                 <CustomSwitchInput text='Is a template' onValueChange={(value) => data.is_template = value} />
-                <LimitedWidthCustomButton onPress={() => CreateReposWithData(data, octokitAuth)} Text="Create a new repos" />
+                <LimitedWidthCustomButton onPress={() => CreateReposWithData(data, octokit)} Text="Create a new repos" />
             </ScrollView>
         </Wrapper>
     );
