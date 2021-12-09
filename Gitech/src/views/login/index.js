@@ -4,12 +4,9 @@ import { Wrapper, Card, LargeText } from "./styles";
 import CustomTextInput from "@components/CustomTextInput";
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
 
-const { Octokit } = require("@octokit/rest");
-
-const octokit = new Octokit();
-
 const Login = (props) => {
     const [auth, setAuth] = React.useState("");
+    console.log(process.env.GITHUB);
 
     return (
         <Wrapper>
@@ -20,7 +17,7 @@ const Login = (props) => {
 
             <StatusBar style="auto" />
 
-            <LimitedWidthCustomButton onPress={() => props.navigation.navigate('UserView', { navigation: props.navigation, octokitAuth: auth })} Text="Your profile" />
+            <LimitedWidthCustomButton onPress={() => props.navigation.navigate('UserView', { navigation: props.navigation, octokitAuth: auth !== "" ? auth : process.env.GITHUB })} Text="Your profile" />
           </Card>
           </Wrapper>
     )

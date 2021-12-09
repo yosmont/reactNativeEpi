@@ -14,7 +14,21 @@ module.exports = function(api) {
                       "@views": "./src/views"
                   },
                   "extensions": [".ios.js", ".android.js", ".js", ".json"]
-              }
+              },
+          ],
+          [
+            "module:react-native-dotenv", {
+              "envName": "APP_ENV",
+              "moduleName": "@env",
+              "path": ".env",
+              "blocklist": null,
+              "allowlist": null,
+              "blacklist": null,
+              "whitelist": null,
+              "safe": false,
+              "allowUndefined": true,
+              "verbose": false
+            }
           ]
       ]
   };
