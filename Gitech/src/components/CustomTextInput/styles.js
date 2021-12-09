@@ -8,7 +8,6 @@ export const TextInput = styled.TextInput`
   width: 100%;
   line-height: 20px;
   padding: 5px 12px;
-  vertical-align: middle;
   color: white;
 `;
 
