@@ -1,16 +1,16 @@
 import React from "react";
-import { View, Text, Dimensions, Image, Pressable} from "react-native";
+import { Text, Dimensions, Image, Pressable} from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 
 const Card = props => {
     return (
-            <Pressable style={{ ...styles.card, ...props.style }} onPress={props.onPress}>
-                {props.children}
-            </Pressable>
+        <Pressable style={{ ...styles.card, ...props.style }} onPress={props.onPress}>
+            {props.children}
+        </Pressable>
     );
 };
 
-export class RecycleTestComponent extends React.Component {
+class CustomRecylerView extends React.Component {
     constructor(args) {
         super(args);
         this.onPress = args.onPress;
@@ -94,3 +94,5 @@ const styles = {
         marginEnd: 5 ,
     }
 };
+
+export default CustomRecylerView;
