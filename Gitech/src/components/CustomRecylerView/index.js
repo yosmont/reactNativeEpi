@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Dimensions, Image, Wrapper } from "react-native";
+import { View, Text, Dimensions, Image } from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 
 const Card = props => {
@@ -11,7 +11,8 @@ const Card = props => {
 export class RecycleTestComponent extends React.Component {
     constructor(args) {
         super(args);
-        this.arr = args.items
+        this.titles = args.titles
+        this.images = args.images
 
         let { width } = Dimensions.get("window");
         let dataProvider = new DataProvider((r1, r2) => {
@@ -23,27 +24,35 @@ export class RecycleTestComponent extends React.Component {
             },
             (type, dim) => {
                 dim.width = width;
-                dim.height = 200;
+                dim.height = 80;
             }
         );
 
         this._rowRenderer = this._rowRenderer.bind(this);
         this.state = {
-            dataProvider: dataProvider.cloneWithRows(this.arr)
+            dataProvider: dataProvider.cloneWithRows(this.titles)
         };
     }
 
-    _rowRenderer(index, data) {
-        return (
-            <Card>
-                <View style={styles.container}>
-                    <Text>Repository: {data.name}</Text>
-                </View>
-                <Text>description: {data.description}</Text>
-                <Text>Owner: {data.owner.login}</Text>
-                <Text>language: {data.language}</Text>
-            </Card>
-        );
+    _rowRenderer(index) {
+        if (this.images === undefined) {
+            return (
+                <Card>
+                    <Text style={styles.title}>{this.titles[index]}</Text>
+                </Card>
+            );
+        } else {
+            return (
+                <Card>
+                    <Image style={styles.image} source={{ uri: this.images[index] }} />
+                    <Text style={styles.title}>{this.titles[index]}</Text>
+                </Card>
+            )
+        }
+    }
+
+    ViewRenderer() {
+        return <RecyclerListView layoutProvider={this._layoutProvider} dataProvider={this.state.dataProvider} rowRenderer={this._rowRenderer} />;
     }
 
     render() {
@@ -51,11 +60,7 @@ export class RecycleTestComponent extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: "space-around",
-        alignItems: "center",
-    },
+const styles = {
     card: {
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 2 },
@@ -65,11 +70,21 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
+        marginStart: 8,
+        marginEnd: 8,
+        alignItems: "center",
+        flexDirection: 'row',
+    },
+    title: {
+        fontWeight: 'bold',
+        fontSize: 16,
         margin: 5,
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 20,
+        height: 20,
         borderRadius: 50,
+        alignItems: 'center',
+        marginEnd: 5 ,
     }
-});
+};
