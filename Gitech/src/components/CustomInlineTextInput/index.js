@@ -6,11 +6,10 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 2,
         alignItems: 'flex-end',
-        justifyContent: 'center',
-        marginTop: -5
+        justifyContent: 'center'
     },
     safeAreaStyle: {
-        padding: 10,
+        paddingBottom: 10,
         marginTop: 25,
         flexDirection: 'row',
         width: 300,

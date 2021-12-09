@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
     safeAreaStyle: {
-        padding: 10,
+        paddingBottom: 10,
         marginTop: 25,
         flexDirection: 'row',
         width: 300,
