@@ -1,19 +1,25 @@
 import React from "react";
-import { View, Text, Dimensions, Image } from "react-native";
+import { View, Text, Dimensions, Image, Pressable} from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 
 const Card = props => {
     return (
-      <View style={{ ...styles.card, ...props.style }}>{props.children}</View>
+            <Pressable style={{ ...styles.card, ...props.style }} onPress={props.onPress}>
+                {props.children}
+            </Pressable>
     );
 };
 
 export class RecycleTestComponent extends React.Component {
     constructor(args) {
         super(args);
+        this.onPress = args.onPress;
         this.titles = args.titles
         this.images = args.images
-
+        this.routes = args.routes
+        if (this.onPress === undefined) {
+            this.onPress = () => {};
+        }
         let { width } = Dimensions.get("window");
         let dataProvider = new DataProvider((r1, r2) => {
             return r1 !== r2;
@@ -37,13 +43,13 @@ export class RecycleTestComponent extends React.Component {
     _rowRenderer(index) {
         if (this.images === undefined) {
             return (
-                <Card>
+                <Card route={this.routes[index]} onPress={this.onPress(this.routes[index])}>
                     <Text style={styles.title}>{this.titles[index]}</Text>
                 </Card>
             );
         } else {
             return (
-                <Card>
+                <Card routes={this.routes[index]} onPress={this.onPress.bind(this, this.routes[index])}>
                     <Image style={styles.image} source={{ uri: this.images[index] }} />
                     <Text style={styles.title}>{this.titles[index]}</Text>
                 </Card>
