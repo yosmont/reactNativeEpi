@@ -3,6 +3,7 @@ import {StatusBar} from "expo-status-bar";
 import { Wrapper, Card, LargeText } from "./styles";
 import CustomTextInput from "@components/CustomTextInput";
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
+import {GITHUB} from "react-native-dotenv";
 
 const Login = (props) => {
     const [auth, setAuth] = React.useState("");
@@ -17,7 +18,7 @@ const Login = (props) => {
 
             <StatusBar style="auto" />
 
-            <LimitedWidthCustomButton onPress={() => props.navigation.navigate('UserView', { navigation: props.navigation, octokitAuth: auth !== "" ? auth : process.env.GITHUB })} Text="Your profile" />
+            <LimitedWidthCustomButton onPress={() => props.navigation.navigate('UserView', { navigation: props.navigation, octokitAuth: auth !== "" ? auth : GITHUB })} Text="Your profile" />
           </Card>
           </Wrapper>
     )
