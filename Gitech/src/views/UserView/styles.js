@@ -1,12 +1,16 @@
 import styled from 'styled-components/native';
+import { colors } from "@src/styles";
 
 export const Wrapper = styled.View`
   flex: 1;
-  background-color: black;
+  background-color: ${colors.background};
+  padding: 10px;
+`;
+
+export const UserWrapper = styled.View`
+  flex: 1;
   align-items: center;
   justify-content: flex-start;
-  color: white;
-  padding: 10px;
 `;
 
 export const Image = styled.Image`
@@ -14,12 +18,11 @@ export const Image = styled.Image`
   height: 100px;
   border-radius: 50px;
   align-items: center;
-  color: white;
   margin-bottom: 20px;
   margin-top: 20px;
 `;
 
 export const Text = styled.Text`
-  color: white;
+  color: ${colors.text};
   margin-bottom: 20px;
 `;

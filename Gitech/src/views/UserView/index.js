@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { Wrapper, Image, Text } from './styles';
+import {Wrapper, UserWrapper, Image, Text} from './styles';
 
 import CreateReposButton from "@components/UserView/CreateReposButton";
 import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
-
-const { Octokit } = require("@octokit/rest");
+import {ActivityIndicator} from "react-native";
 
 function GetNbOfPage(linkStr) {
 
@@ -16,24 +15,16 @@ function GetNbOfPage(linkStr) {
 }
 
 const UserView = (props) => {
-
-    const octokit = new Octokit({
-        auth: props.route.params.octokitAuth
-    });
-
-    const username = props.username;
-    const [user, onUserLoaded] = React.useState("Loading");
+    const octokit = props.route.params.octokit;
+    const username = props.route.params.username;
+    const [user, onUserLoaded] = React.useState(props.route.params.user);
     const [starredCount, onStarredLoaded] = React.useState("Loading");
     const [watchedCount, onWatchedLoaded] = React.useState("Loading");
 
     useEffect( () => {
-      console.log(username);
-        if (!username) {
-          octokit.rest.users.getAuthenticated().then((value) => {
-            onUserLoaded(value.data);
-          });
-        } else {
+        if (username) {
           octokit.rest.users.getByUsername({ username: username }).then((value) => {
+            console.log(value.data);
             onUserLoaded(value.data);
           });
           octokit.rest.activity.listReposWatchedByUser({ username: username, per_page: 1 }).then((value) => {
@@ -46,28 +37,36 @@ const UserView = (props) => {
       }, [])
 
     useEffect(() => {
-      octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then((value) => {
-        onStarredLoaded(GetNbOfPage(value.headers.link));
-      });
+      if (!username)
+        octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then((value) => {
+          onStarredLoaded(GetNbOfPage(value.headers.link));
+        });
     }, [user])
 
     useEffect(() => {
-      octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
-        onWatchedLoaded(GetNbOfPage(value.headers.link));
-      });
+      if (!username)
+        octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
+          onWatchedLoaded(GetNbOfPage(value.headers.link));
+        });
     }, [user])
 
     return (
-        <Wrapper>
-            <Image source={{ uri: user.avatar_url }} />
-            <Text>{username ? username +  'profile' : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>
-            <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" octokit={octokit} />
+      <Wrapper>
+        {user ?
+          <UserWrapper>
+            {user && <Image source={{ uri: user.avatar_url }} />}
+            <Text>{username ? username : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>
+            <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" user={user} octokit={octokit} />
             <ReposListButton navigation={props.navigation} reposNb={starredCount} reposType="Star" octokit={octokit} />
             <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} />
             <UsersListButton navigation={props.navigation} userNb={user.following} userType="Follow" />
             <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Following by" />
             <CreateReposButton navigation={props.navigation} />
-        </Wrapper>
+          </UserWrapper>
+          :
+          <ActivityIndicator size='large' color='#457cb7' />
+        }
+      </Wrapper>
     );
 }
 

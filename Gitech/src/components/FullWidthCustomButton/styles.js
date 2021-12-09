@@ -3,16 +3,17 @@ import { colors } from "@src/styles";
 
 export const Pressable = styled.Pressable`
   flex: 0;
-  background-color: ${colors.button};
+  background-color: #21262d;
   align-items: flex-start;
   justify-content: center;
-  width: 300px;
+  width: 100%;
   height: 30px;
   border-width: 1px;
   border-radius: 10px;
-  border-color: ${colors.buttonBorder};
+  border-color: #242c35;
   margin: 10px;
   padding: 20px;
+  color: ${colors.text};
 `;
 
 export const Text = styled.Text`

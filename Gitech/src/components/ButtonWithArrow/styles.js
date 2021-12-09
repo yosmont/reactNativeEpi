@@ -4,15 +4,17 @@ import { colors } from "@src/styles";
 export const Pressable = styled.Pressable`
   flex: 0;
   background-color: ${colors.button};
-  align-items: flex-start;
-  justify-content: center;
-  width: 300px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   height: 30px;
   border-width: 1px;
   border-radius: 10px;
   border-color: ${colors.buttonBorder};
-  margin: 10px;
+  margin-right: 10px;
   padding: 20px;
+  color: ${colors.text};
 `;
 
 export const Text = styled.Text`
