@@ -1,15 +1,17 @@
-import React, {Component} from 'react';
-import {Pressable, Text} from './styles';
+import React from 'react';
+import {Pressable} from "react-native";
+import {styles, Text} from "./styles";
 
-class ButtonWithIcon extends Component {
-  render() {
+const ButtonWithIcon = (props) => {
     return (
-      <Pressable onPress={this.props.onPress}>
-        <Text>{this.props.Text}</Text>
-        {this.props.children}
+      <Pressable
+        style={styles.buttonWithIcon}
+        onPress={props.onPress}
+      >
+        <Text>{props.Text}</Text>
+        {props.children}
       </Pressable>
     );
-  }
 }
 
 export default ButtonWithIcon;

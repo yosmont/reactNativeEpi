@@ -15,11 +15,17 @@ const Login = (props) => {
           <Card>
             <LargeText>GitHub Login</LargeText>
 
-            <CustomTextInput text='Personal access tokens' placeholder='tokens' onValueChange={ setAuth }/>
+            <CustomTextInput
+              text='Personal access token'
+              placeholder='token'
+              onValueChange={ setAuth }/>
 
             <StatusBar style="auto" />
 
-            <LimitedWidthCustomButton onPress={() => getAuth(props.navigation, auth)} Text="Your profile" />
+            <LimitedWidthCustomButton
+              onPress={() => getAuth(props.navigation, auth)}
+              Text="Your profile"
+              width={300} />
           </Card>
           </Wrapper>
     )

@@ -1,9 +1,13 @@
 import React from 'react';
-import { Text, Pressable } from './styles'
+import {Pressable} from 'react-native';
+import {styles, Text} from './styles';
 
 const LimitedWidthCustomButton = (props) => {
     return (
-        <Pressable onPress={props.onPress}>
+        <Pressable
+          style={styles(props.width).button}
+          onPress={props.onPress}
+        >
             <Text>{props.Text}</Text>
         </Pressable>
     );

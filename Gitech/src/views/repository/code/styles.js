@@ -21,5 +21,4 @@ export const Card = styled.View`
 
 export const Flex = styled.View`
   flex-direction: row;
-  height: fit-content;
 `;

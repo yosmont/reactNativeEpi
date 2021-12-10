@@ -37,10 +37,10 @@ const Repository = (props) => {
               <Image source={{ uri: repo.owner.avatar_url }} />
               <RepoHeader>
                 <Text>Name : {repo.name}</Text>
-                <Flex>
-                  <Text>Owner : </Text>
-                  <TextLink text={repo.owner.login} onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, repo.owner.login)} />
-                </Flex>
+                <Text>
+                  Owner :
+                  <TextLink text={' ' + repo.owner.login} onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, repo.owner.login)} />
+                </Text>
               </RepoHeader>
             </Flex>
             <Text>{repo.description}</Text>

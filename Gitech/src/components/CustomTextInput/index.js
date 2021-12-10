@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import {SafeAreaView, TextInput, Text} from "./styles";
+import {TextInput} from "react-native";
+import {SafeAreaView, Text} from "./styles";
+import {styles} from '@src/styles';
 
 class CustomTextInput extends Component {
   render () {
     return (
       <SafeAreaView>
         <Text>{this.props.text}</Text>
-        <TextInput placeholder={this.props.placeholder} onChangeText={this.props.onValueChange} />
+        <TextInput
+          placeholder={this.props.placeholder}
+          placeholderTextColor={'white'}
+          style={styles.textInput}
+          onChangeText={this.props.onValueChange}
+        />
       </SafeAreaView>
     );
   }

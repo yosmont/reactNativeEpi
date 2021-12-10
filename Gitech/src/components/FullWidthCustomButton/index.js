@@ -1,12 +1,14 @@
 import React from 'react';
-import { Pressable, Text } from './styles';
+import { Dimensions } from 'react-native';
+import LimitedWidthCustomButton from "@src/components/LimitedWidthCustomButton";
 
 const FullWidthCustomButton = (props) => {
     return (
-        <Pressable onPress={props.onPress}>
-            <Text>{props.Text}</Text>
-          {props.icon}
-        </Pressable>
+      <LimitedWidthCustomButton
+        width={Dimensions.get('window').width}
+        Text={props.Text}
+        onPress={props.onPress}>
+        </LimitedWidthCustomButton>
     );
 }
 

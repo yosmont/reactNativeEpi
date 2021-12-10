@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { colors } from "@src/styles";
+import {StyleSheet} from "react-native";
 
 export const Pressable = styled.Pressable`
   flex: 0;
@@ -19,5 +20,21 @@ export const Pressable = styled.Pressable`
 `;
 
 export const Text = styled.Text`
-  color: black;
+  color: ${colors.text};
 `;
+
+export const styles = StyleSheet.create({
+  buttonWithIcon: {
+    alignItems: "center",
+    backgroundColor: colors.button,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.buttonBorder,
+    marginTop: 10,
+    marginBottom: 10
+  }
+});
