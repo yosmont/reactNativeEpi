@@ -11,7 +11,7 @@ export const Pressable = styled.Pressable`
   border-width: 1px;
   border-radius: 10px;
   border-color: #242c35;
-  margin: 10px;
+  margin: 0 10px 10px 10px;
   padding: 20px;
   color: ${colors.text};
 `;

@@ -3,7 +3,8 @@ import { colors } from "@src/styles";
 
 export const Pressable = styled.Pressable`
   flex: 0;
-  background-color: ${colors.button};
+  background-color: white;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -18,5 +19,5 @@ export const Pressable = styled.Pressable`
 `;
 
 export const Text = styled.Text`
-  color: ${colors.text};
+  color: black;
 `;
