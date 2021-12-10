@@ -11,7 +11,7 @@ export const SafeAreaView1 = styled.SafeAreaView`
 `
 
 export const Text = styled.Text`
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   color: white;
 `
 export const Picker = styled.Picker`

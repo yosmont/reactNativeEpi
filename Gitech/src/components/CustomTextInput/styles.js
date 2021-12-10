@@ -13,10 +13,10 @@ export const TextInput = styled.TextInput`
 
 export const SafeAreaView = styled.SafeAreaView`
   padding: 25px;
-  margin-top: 25px;
+  margin-top: 10px;
 `
 
 export const Text = styled.Text`
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   color: white;
 `
