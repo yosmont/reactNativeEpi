@@ -1,8 +1,9 @@
 import React, {useEffect} from "react";
 import {ActivityIndicator} from 'react-native'
 import {Wrapper, RepoWrapper, RepoHeader, Text, Flex, Image} from "./styles";
+import { Feather } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
-import ButtonWithIcon from "@src/components/ButtonWithArrow";
+import ButtonWithIcon from "@src/components/ButtonWithIcon";
 
 export const repoRights = {
   Owner: 'Owner',
@@ -43,7 +44,9 @@ const Repository = (props) => {
               </RepoHeader>
             </Flex>
             <Text>{repo.description}</Text>
-            <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo)} />
+            <ButtonWithIcon Text={'Code'} icon={<Feather name="code" size={15} color="white" />} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo)}>
+              <Feather name="code" size={15} color="white" />
+            </ButtonWithIcon>
           </RepoWrapper>
         :
         <ActivityIndicator size='large' color='#457cb7' />

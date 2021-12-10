@@ -5,6 +5,7 @@ const FullWidthCustomButton = (props) => {
     return (
         <Pressable onPress={props.onPress}>
             <Text>{props.Text}</Text>
+          {props.icon}
         </Pressable>
     );
 }
