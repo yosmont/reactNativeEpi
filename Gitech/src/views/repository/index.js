@@ -13,20 +13,22 @@ export const repoRights = {
 
 const Repository = (props) => {
   const [repo, setRepo] = React.useState(undefined);
-  const [rights, setRights] = React.useState(undefined);
+  const [branches, setBranches] = React.useState(undefined);
 
   useEffect(() => {
     props.route.params.octokit.rest.repos.listForAuthenticatedUser()
       .then((value) => {
-        console.log(value.data[15]);
-        setRepo(value.data.count !== 0 ? value.data[15] : undefined);
+        console.log(value.data);
+        setRepo(value.data.count !== 0 ? value.data[13] : undefined);
       });
   }, [])
 
   useEffect(() => {
-    if (repo) {
-      setRights(repo.owner.login === props.route.params.user.login ? repoRights.Owner : repoRights.Tourist)
-    }
+    if (repo)
+      props.route.params.octokit.rest.repos.listBranches({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          setBranches(value.data);
+        });
   }, [repo])
 
   return (
@@ -44,7 +46,7 @@ const Repository = (props) => {
               </RepoHeader>
             </Flex>
             <Text>{repo.description}</Text>
-            <ButtonWithIcon Text={'Code'} icon={<Feather name="code" size={15} color="white" />} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo)}>
+            <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
               <Feather name="code" size={15} color="white" />
             </ButtonWithIcon>
           </RepoWrapper>
@@ -59,8 +61,9 @@ const redirectToUser = (navigation, octokit, user) => {
   navigation.push('UserView', { navigation: navigation, octokit: octokit, username: user })
 }
 
-const getCode = (navigation, octokit, repo) => {
-  navigation.push('RepositoryCode', { navigation: navigation, octokit: octokit, repo: repo })
+const getCode = (navigation, octokit, repo, branches, path) => {
+  console.log(branches);
+  navigation.push('RepositoryCode', { navigation: navigation, octokit: octokit, repo: repo, branches: branches, path: path })
 }
 
 export default Repository;
