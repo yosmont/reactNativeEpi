@@ -17,6 +17,10 @@ export const Text = styled.Text`
   color: ${colors.text};
 `;
 
+export const StatusIcon = styled.View`
+  padding-right: 5px;
+`;
+
 export const styles = StyleSheet.create({
   button: {
     alignItems: "center",

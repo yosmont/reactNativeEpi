@@ -28,7 +28,7 @@ const Repository = (props) => {
 
   useEffect(() => {
     if (repo) {
-      props.route.params.octokit.rest.issues.listForRepo({owner: repo.owner.login, repo: repo.name})
+      props.route.params.octokit.rest.issues.listForRepo({owner: repo.owner.login, repo: repo.name, state: 'all'})
         .then((value) => {
           console.log(value.data);
           setIssues(value.data.filter((issue) => !issue.pull_request));

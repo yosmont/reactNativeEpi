@@ -1,8 +1,8 @@
 import React from 'react';
 import {Pressable} from "react-native";
-import {styles, Flex, Text, Wrapper} from "./styles";
+import {styles, Flex, Text, Wrapper, StatusIcon} from "./styles";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
-import {FontAwesome5} from "@expo/vector-icons";
+import {FontAwesome5, Ionicons} from "@expo/vector-icons";
 
 const Issues = (props) => {
   console.log(props.route.params.issues);
@@ -19,6 +19,14 @@ const Issues = (props) => {
             Text={issue.title}
             onPress={() => getIssue(props.route.params.navigation, props.route.params.octokit, props.route.params.repo, issue)}>
           <Flex>
+            <StatusIcon>
+              {
+                issue.state === 'open' ?
+                  <FontAwesome5 name="check-circle" size={20} color="#238636"/>
+                  :
+                  <Ionicons name="alert-circle-outline" size={20} color="#8957e5"/>
+              }
+            </StatusIcon>
             <FontAwesome5 name="comment-alt" size={15} color="white" />
             <Text>  {issue.comments}</Text>
           </Flex>
