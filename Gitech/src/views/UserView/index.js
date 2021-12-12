@@ -6,6 +6,8 @@ import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
 import {ActivityIndicator} from "react-native";
 import SearchReposButton from "@components/UserView/SearchReposButton";
+import LimitedWidthCustomButton from '../../components/LimitedWidthCustomButton';
+import FollowButton from "@components/UserView/FollowButton";
 
 function GetNbOfPage(linkStr) {
 
@@ -19,8 +21,8 @@ const UserView = (props) => {
     const octokit = props.route.params.octokit;
     const username = props.route.params.username;
     const [user, onUserLoaded] = React.useState(props.route.params.user);
-    const [starredCount, onStarredLoaded] = React.useState("Loading");
-    const [watchedCount, onWatchedLoaded] = React.useState("Loading");
+    const [starredCount, onStarredLoaded] = React.useState(undefined);
+    const [watchedCount, onWatchedLoaded] = React.useState(undefined);
 
     useEffect( () => {
         if (username) {
@@ -52,7 +54,7 @@ const UserView = (props) => {
 
     return (
       <Wrapper>
-        {user ?
+        {user && starredCount && watchedCount ?
           <UserWrapper>
             {user && <Image source={{ uri: user.avatar_url }} />}
             <Text>{username ? username : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>
@@ -61,7 +63,11 @@ const UserView = (props) => {
             <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} />
             <UsersListButton navigation={props.navigation} userNb={user.following} userType="Follow" />
             <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Following by" />
-            <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
+            {!username ?
+                <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
+                :
+                <FollowButton octokit={octokit} username={username} />
+            }
             <SearchReposButton navigation={props.navigation} octokit={octokit} />
           </UserWrapper>
           :
