@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {styles, Flex, Text, Wrapper} from "./styles";
+import {Flex, Text, Wrapper} from "./styles";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -16,7 +16,8 @@ const MyIssues = (props) => {
   }, []);
   return (
     <Wrapper>
-      { issues ? issues.map((issue) => (
+      {
+        issues ? issues.map((issue) => (
             <ButtonWithIcon
               Text={issue.title}
               onPress={() => getIssue(props.route.params.navigation, octokit, issue)}>

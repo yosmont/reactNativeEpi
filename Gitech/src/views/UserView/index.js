@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
+import {styles} from "@src/styles";
 import {Wrapper, UserWrapper, Image, Text} from './styles';
-
 import CreateReposButton from "@components/UserView/CreateReposButton";
 import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
-import {ActivityIndicator} from "react-native";
+import {ActivityIndicator, RefreshControl, ScrollView} from "react-native";
 import SearchReposButton from "@components/UserView/SearchReposButton";
 import FollowButton from "@components/UserView/FollowButton";
 
@@ -19,6 +19,7 @@ function GetNbOfPage(linkStr) {
 const UserView = (props) => {
     const octokit = props.route.params.octokit;
     const username = props.route.params.username;
+    const [refreshing, setRefreshing] = React.useState(false);
     const [user, onUserLoaded] = React.useState(props.route.params.user);
     const [starredCount, onStarredLoaded] = React.useState(undefined);
     const [watchedCount, onWatchedLoaded] = React.useState(undefined);
@@ -35,43 +36,52 @@ const UserView = (props) => {
             onStarredLoaded(GetNbOfPage(value.headers.link));
           });
         }
-      }, [])
+      }, [refreshing])
 
     useEffect(() => {
-      if (!username)
-        octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then((value) => {
+      if (!username) {
+        octokit.rest.activity.listReposStarredByAuthenticatedUser({per_page: 1}).then((value) => {
           onStarredLoaded(GetNbOfPage(value.headers.link));
         });
-    }, [user])
-
-    useEffect(() => {
-      if (!username)
         octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
           onWatchedLoaded(GetNbOfPage(value.headers.link));
         });
-    }, [user])
+      }
+      setRefreshing(false);
+    }, [user, refreshing])
 
     return (
       <Wrapper>
-        {user && (starredCount !== undefined) && (watchedCount !== undefined) ?
-          <UserWrapper>
-            {user && <Image source={{ uri: user.avatar_url }} />}
-            <Text>{username ? username : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>
-            <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" user={user} octokit={octokit} />
-            <ReposListButton navigation={props.navigation} reposNb={starredCount} reposType="Star" octokit={octokit} />
-            <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} />
-            <UsersListButton navigation={props.navigation} userNb={user.following} userType="Following" />
-            <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Followed by" />
-            {!username ?
-                <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
-                :
-                <FollowButton octokit={octokit} username={username} />
-            }
-            <SearchReposButton navigation={props.navigation} octokit={octokit} />
-          </UserWrapper>
-          :
-          <ActivityIndicator size='large' color='#457cb7' />
-        }
+        <ScrollView
+          contentContainerStyle={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => setRefreshing(true)}
+            />
+          }
+        >
+          {
+            user && (starredCount !== undefined) && (watchedCount !== undefined) ?
+            <UserWrapper>
+              {user && <Image source={{ uri: user.avatar_url }} />}
+              <Text>{username ? username : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>
+              <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" user={user} octokit={octokit} />
+              <ReposListButton navigation={props.navigation} reposNb={starredCount} reposType="Star" octokit={octokit} />
+              <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} />
+              <UsersListButton navigation={props.navigation} userNb={user.following} userType="Following" />
+              <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Followed by" />
+              {!username ?
+                  <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
+                  :
+                  <FollowButton octokit={octokit} username={username} />
+              }
+              <SearchReposButton navigation={props.navigation} octokit={octokit} />
+            </UserWrapper>
+            :
+            <ActivityIndicator size='large' color='#457cb7' />
+          }
+        </ScrollView>
       </Wrapper>
     );
 }

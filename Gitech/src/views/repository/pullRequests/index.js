@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Pressable, Modal, TextInput, Picker} from "react-native";
+import {View, Pressable, Modal, TextInput, Picker, ScrollView} from "react-native";
 import {styles, stylesActive, Text, Wrapper, PickerWrapper} from "./styles";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 
@@ -39,103 +39,105 @@ const PullRequests = (props) => {
 
   return (
     <Wrapper>
-      <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(!modalVisible)}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text>Base</Text>
-            <PickerWrapper>
-              <Picker
-                selectedValue={newPRBase}
-                style={styles.picker}
-                onValueChange={(value) => setNewPRBase(value)}
-              >
-                {
-                  branches ?
-                    branches.map((branch) => (
-                      <Picker.Item label={branch.name} value={branch.name} />
-                    ))
-                    :
-                    <Picker.Item label="main" value="main" />
-                }
-              </Picker>
-            </PickerWrapper>
-            <Text>Compare</Text>
-            <PickerWrapper>
-              <Picker
-                selectedValue={newPRCompare}
-                style={styles.picker}
-                onValueChange={(value) => setNewPRCompare(value)}
-              >
-                {
-                  branches ?
-                    branches.map((branch) => (
-                      <Picker.Item label={branch.name} value={branch.name} />
-                    ))
-                    :
-                    <Picker.Item label="main" value="main" />
-                }
-              </Picker>
-            </PickerWrapper>
-            <TextInput
-              placeholder={'Title'}
-              placeholderTextColor={'white'}
-              style={styles.textInput}
-              onChangeText={(value) => setNewPRTitle(value)}
-            />
-            <TextInput
-              placeholder={'Leave a comment'}
-              placeholderTextColor={'white'}
-              style={styles.textInput}
-              multiline={true}
-              numberOfLines={4}
-              onChangeText={(value) => setNewPRBody(value)}
-            />
-            <Pressable
-              style={stylesActive(newPRTitle !== "").button}
-              onPress={() => createPullRequest(
-                props.route.params.octokit,
-                props.route.params.repo,
-                newPRTitle,
-                newPRBody,
-                newPRBase,
-                newPRCompare,
-                setPullRequests,
-                setModalVisible
-              )}>
-              <Text
-                style={stylesActive(newPRTitle !== "" && newPRBase.name !== newPRCompare.name).text}>
-                Submit pull request
-              </Text>
-            </Pressable>
-            <Pressable
-              style={styles.button}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text>Cancel</Text>
-            </Pressable>
+      <ScrollView>
+        <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text>Base</Text>
+              <PickerWrapper>
+                <Picker
+                  selectedValue={newPRBase}
+                  style={styles.picker}
+                  onValueChange={(value) => setNewPRBase(value)}
+                >
+                  {
+                    branches ?
+                      branches.map((branch) => (
+                        <Picker.Item label={branch.name} value={branch.name} />
+                      ))
+                      :
+                      <Picker.Item label="main" value="main" />
+                  }
+                </Picker>
+              </PickerWrapper>
+              <Text>Compare</Text>
+              <PickerWrapper>
+                <Picker
+                  selectedValue={newPRCompare}
+                  style={styles.picker}
+                  onValueChange={(value) => setNewPRCompare(value)}
+                >
+                  {
+                    branches ?
+                      branches.map((branch) => (
+                        <Picker.Item label={branch.name} value={branch.name} />
+                      ))
+                      :
+                      <Picker.Item label="main" value="main" />
+                  }
+                </Picker>
+              </PickerWrapper>
+              <TextInput
+                placeholder={'Title'}
+                placeholderTextColor={'white'}
+                style={styles.textInput}
+                onChangeText={(value) => setNewPRTitle(value)}
+              />
+              <TextInput
+                placeholder={'Leave a comment'}
+                placeholderTextColor={'white'}
+                style={styles.textInput}
+                multiline={true}
+                numberOfLines={4}
+                onChangeText={(value) => setNewPRBody(value)}
+              />
+              <Pressable
+                style={stylesActive(newPRTitle !== "").button}
+                onPress={() => createPullRequest(
+                  props.route.params.octokit,
+                  props.route.params.repo,
+                  newPRTitle,
+                  newPRBody,
+                  newPRBase,
+                  newPRCompare,
+                  setPullRequests,
+                  setModalVisible
+                )}>
+                <Text
+                  style={stylesActive(newPRTitle !== "" && newPRBase.name !== newPRCompare.name).text}>
+                  Submit pull request
+                </Text>
+              </Pressable>
+              <Pressable
+                style={styles.button}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text>Cancel</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <Pressable
-        style={styles.greenButton}
-        onPress={() => setModalVisible(true)}>
-        <Text>New pull request</Text>
-      </Pressable>
-      {
-        pullRequests && pullRequests.length !== 0 ?
-          pullRequests.map((pr) => (
-            <ButtonWithIcon
-              Text={pr.title}
-              onPress={() => getPullRequest(props.route.params.navigation, props.route.params.octokit, props.route.params.repo, pr)}>
-          </ButtonWithIcon>
-          )) :
-          <Text>There are no pull requests for this repository</Text>
-      }
+        <Pressable
+          style={styles.greenButton}
+          onPress={() => setModalVisible(true)}>
+          <Text>New pull request</Text>
+        </Pressable>
+        {
+          pullRequests && pullRequests.length !== 0 ?
+            pullRequests.map((pr) => (
+              <ButtonWithIcon
+                Text={pr.title}
+                onPress={() => getPullRequest(props.route.params.navigation, props.route.params.octokit, props.route.params.repo, pr)}>
+            </ButtonWithIcon>
+            )) :
+            <Text>There are no pull requests for this repository</Text>
+        }
+      </ScrollView>
     </Wrapper>
   )
 }

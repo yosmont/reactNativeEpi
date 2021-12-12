@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator } from "react-native";
+import {styles} from "@src/styles";
+import {ActivityIndicator, RefreshControl, ScrollView} from "react-native";
 import { Wrapper, UserWrapper, Image, Text, LargeText, Card } from './styles';
 
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
@@ -28,10 +29,12 @@ function NotImplemented(navigation, octokit) {
 
 const Home = (props) => {
     const octokit = props.route.params.octokit;
+    const [refreshing, setRefreshing] = React.useState(false);
     const [reposBtnTxt, onReposBtnTxtLoad] = React.useState("My repository");
     const [issuesBtnTxt, onIssuesBtnTxtLoad] = React.useState("My issues");
     const [starredBtnTxt, onStarredBtnTxtLoad] = React.useState("My starred");
     const [watchedBtnTxt, onWatchedBtnTxtLoad] = React.useState("My watched");
+
     useEffect(() => {
         octokit.rest.repos.listForAuthenticatedUser({ per_page: 1 }).then((value) => {
             onReposBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " repository");
@@ -45,17 +48,29 @@ const Home = (props) => {
         octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
             onWatchedBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " watched");
         });
-    }, [])
+        setRefreshing(false);
+    }, [refreshing])
+
     return (
         <Wrapper>
-            <Card>
-                <LimitedWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" width={300} />
-                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} width={300} />
-                <LimitedWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} width={300} />
-                {/*<LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />*/}
-                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} width={300} />
-                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} width={300} />
-            </Card>
+            <ScrollView
+              contentContainerStyle={styles.scrollView}
+              refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={() => setRefreshing(true)}
+                  />
+              }
+            >
+                <Card>
+                    <LimitedWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" width={300} />
+                    <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} width={300} />
+                    <LimitedWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} width={300} />
+                    {/*<LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />*/}
+                    <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} width={300} />
+                    <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} width={300} />
+                </Card>
+            </ScrollView>
         </Wrapper>
     );
 }

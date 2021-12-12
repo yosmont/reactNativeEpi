@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {Card, Wrapper, Text} from "./styles";
-import {ActivityIndicator} from "react-native";
+import {ActivityIndicator, ScrollView} from "react-native";
 import {Base64} from 'js-base64';
 
 const FileView = (props) => {
@@ -22,13 +22,16 @@ const FileView = (props) => {
 
   return (
     <Wrapper>
-      {file ?
-        <Card>
-          <Text>{file}</Text>
-        </Card>
-        :
-        <ActivityIndicator size='large' color='#457cb7' />
-      }
+      <ScrollView>
+        {
+          file ?
+            <Card>
+              <Text>{file}</Text>
+            </Card>
+            :
+            <ActivityIndicator size='large' color='#457cb7' />
+        }
+      </ScrollView>
     </Wrapper>
   );
 }
