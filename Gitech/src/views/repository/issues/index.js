@@ -66,7 +66,7 @@ const Issues = (props) => {
 
       <Pressable
         style={styles.button}
-        onPress={() => setModalVisible(true)/*createIssue(props.route.params.navigation, props.route.params.octokit)*/}>
+        onPress={() => setModalVisible(true)}>
         <Text>New issue</Text>
       </Pressable>
       {

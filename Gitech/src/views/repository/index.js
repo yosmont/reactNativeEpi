@@ -30,7 +30,6 @@ const Repository = (props) => {
     if (repo) {
       props.route.params.octokit.rest.issues.listForRepo({owner: repo.owner.login, repo: repo.name, state: 'all'})
         .then((value) => {
-          console.log(value.data);
           setIssues(value.data.filter((issue) => !issue.pull_request));
         })
       props.route.params.octokit.rest.pulls.list({owner: repo.owner.login, repo: repo.name})
@@ -89,7 +88,13 @@ const Repository = (props) => {
 
             <ButtonWithIcon
               Text={'Pull requests (' + pullRequests.length + ')'}
-              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+              onPress={() =>
+                props.route.params.navigation.push('PullRequests', {
+                  navigation: props.route.params.navigation,
+                  octokit: props.route.params.octokit,
+                  repo: repo,
+                  pullRequests: pullRequests
+                })}>
               <Ionicons name="git-pull-request-outline" size={15} color="white" />
             </ButtonWithIcon>
 

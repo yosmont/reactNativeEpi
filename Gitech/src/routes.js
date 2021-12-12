@@ -10,6 +10,7 @@ import FileView from "@views/repository/code/file";
 import Issues from "@views/repository/issues";
 import Issue from "@views/repository/issues/issue";
 import NewIssue from "@views/repository/issues/new";
+import PullRequests from "@views/repository/pullRequests";
 import Home from '@views/Home';
 import MyIssues from '@views/MyIssues';
 
@@ -122,6 +123,17 @@ const Routes = () => {
           name="NewIssue"
           options={{
             title: 'Create an issue',
+            headerStyle: {
+              backgroundColor: '#2b2b2b'
+            },
+            headerTintColor: '#fff'
+          }}
+        />
+        <Screen
+          component={PullRequests}
+          name="PullRequests"
+          options={{
+            title: 'Pull Requests',
             headerStyle: {
               backgroundColor: '#2b2b2b'
             },
