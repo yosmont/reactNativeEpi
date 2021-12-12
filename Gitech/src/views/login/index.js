@@ -24,7 +24,7 @@ const Login = (props) => {
 
             <LimitedWidthCustomButton
               onPress={() => getAuth(props.navigation, auth)}
-              Text="Your profile"
+              Text="Home"
               width={300} />
           </Card>
           </Wrapper>
@@ -35,9 +35,7 @@ const getAuth = (navigation, auth) => {
   const octokit = new Octokit({
     auth: auth ? auth : GITHUB
   });
-  octokit.rest.users.getAuthenticated().then((value) => {
-    navigation.navigate('UserView', { navigation: navigation, octokit: octokit, user: value.data ? value.data : undefined });
-  });
+  navigation.navigate('Home', { navigation: navigation, octokit: octokit });
 }
 
 export default Login;
