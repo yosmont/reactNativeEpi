@@ -35,7 +35,7 @@ const SearchRepo = (props) => {
 					});
 				});
           setRecylerViewUpdate(<CustomRecylerView onPress={(usf) => {
-            console.log('test', route);
+            // console.log('test', route);
           }
 				} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
 			});

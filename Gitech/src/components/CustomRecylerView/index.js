@@ -14,7 +14,6 @@ class CustomRecylerView extends React.Component {
 							(item.avatar_url !== undefined) ? <Image source={{ uri: item.avatar_url }} /> : ''
 							(item.usf !== undefined) ? <Text>{item.usf}</Text> : ''
 						}
-
 						<SafeAreaView>
 							<Text>{item.full_name}</Text>
 						</SafeAreaView>
