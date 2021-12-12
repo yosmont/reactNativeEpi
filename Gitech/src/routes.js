@@ -27,16 +27,6 @@ const Routes = () => {
             }}
           />
           <Screen
-              component={Home}
-              name="Home"
-              options={{
-                  headerStyle: {
-                      backgroundColor: '#2b2b2b'
-                  },
-                  headerTintColor: '#fff'
-              }}
-          />
-          <Screen
             component={UserView}
             name="UserView"
             options={{
@@ -100,6 +90,16 @@ const Routes = () => {
             },
             headerTintColor: '#fff'
           }}
+        />
+        <Screen
+            component={Home}
+            name="Home"
+            options={{
+                headerStyle: {
+                    backgroundColor: '#2b2b2b'
+                },
+                headerTintColor: '#fff'
+            }}
         />
     </Navigator>
   );
