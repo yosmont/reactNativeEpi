@@ -36,7 +36,7 @@ const Home = (props) => {
         octokit.rest.repos.listForAuthenticatedUser({ per_page: 1 }).then((value) => {
             onReposBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " repository");
         });
-        octokit.rest.issues.list({ per_page: 1 }).then((value) => {
+        octokit.rest.issues.listForAuthenticatedUser({ per_page: 1 }).then((value) => {
             onIssuesBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " issues");
         });
         octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then((value) => {

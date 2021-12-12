@@ -9,7 +9,7 @@ const MyIssues = (props) => {
   const octokit = props.route.params.octokit
   const [issues, onIssuesLoad] = React.useState(undefined);
   useEffect(() => {
-    octokit.rest.issues.list().then((value) => {
+    octokit.rest.issues.listForAuthenticatedUser().then((value) => {
       console.log(value.data);
       onIssuesLoad(value.data.filter((issue) => !issue.pull_request));
     })
