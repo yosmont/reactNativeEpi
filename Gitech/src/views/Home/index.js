@@ -18,6 +18,10 @@ function GoToMyUserView(navigation, octokit) {
     });
 }
 
+function GoToMyIssues(navigation, octokit) {
+    navigation.navigate('MyIssues', { navigation: navigation, octokit: octokit });
+}
+
 function NotImplemented(navigation, octokit) {
     alert("not implemented");
 }
@@ -41,13 +45,13 @@ const Home = (props) => {
         octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
             onWatchedBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " watched");
         });
-    })
+    }, [])
     return (
         <Wrapper>
             <Card>
                 <LimitedWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" width={300} />
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} width={300} />
-                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={issuesBtnTxt} width={300} />
+                <LimitedWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} width={300} />
                 {/*<LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />*/}
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} width={300} />
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} width={300} />

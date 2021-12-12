@@ -10,6 +10,7 @@ import FileView from "@views/repository/code/file";
 import Issues from "@views/repository/issues";
 import NewIssue from "@views/repository/issues/new";
 import Home from '@views/Home';
+import MyIssues from '@views/MyIssues';
 
 const Stack = createNativeStackNavigator();
 
@@ -124,7 +125,17 @@ const Routes = () => {
                 },
                 headerTintColor: '#fff'
             }}
-        />
+          />
+          <Screen
+              component={MyIssues}
+              name="MyIssues"
+              options={{
+                  headerStyle: {
+                      backgroundColor: '#2b2b2b'
+                  },
+                  headerTintColor: '#fff'
+              }}
+          />
     </Navigator>
   );
 };
