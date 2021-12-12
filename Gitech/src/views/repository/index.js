@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {ActivityIndicator} from 'react-native'
 import {Wrapper, RepoWrapper, RepoInfo, Text, RepoHeader, Image, Flex} from "./styles";
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 
@@ -65,21 +65,49 @@ const Repository = (props) => {
                 </Flex>
               </RepoInfo>
             </RepoHeader>
+
             <Text>{repo.description}</Text>
-            <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+
+            <ButtonWithIcon
+              Text={'Code'}
+              onPress={() =>
+                getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="code" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Issues (' + issues.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+
+            <ButtonWithIcon
+              Text={'Issues (' + issues.length + ')'}
+              onPress={() =>
+                props.route.params.navigation.push('Issues', {
+                  navigation: props.route.params.navigation,
+                  octokit: props.route.params.octokit,
+                  issues: issues
+                })}>
               <Ionicons name="alert-circle-outline" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Pull requests (' + pullRequests.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+
+            <ButtonWithIcon
+              Text={'Pull requests (' + pullRequests.length + ')'}
+              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Ionicons name="git-pull-request-outline" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Starred (' + starred.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+
+            <ButtonWithIcon
+              Text={'Starred (' + starred.length + ')'}
+              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="star" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Watchers (' + watchers.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+
+            <ButtonWithIcon
+              Text={'Watchers (' + watchers.length + ')'}
+              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="eye" size={15} color="white" />
+            </ButtonWithIcon>
+
+            <ButtonWithIcon
+              Text={'Delete the repository'}
+              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+              <MaterialIcons name="delete" size={15} color="white" />
             </ButtonWithIcon>
           </RepoWrapper>
         :
