@@ -1,9 +1,10 @@
 import React, {useEffect} from "react";
-import {ActivityIndicator} from 'react-native'
-import {Wrapper, RepoWrapper, RepoInfo, Text, RepoHeader, Image, Flex} from "./styles";
+import {ActivityIndicator, Modal, Pressable, View} from 'react-native'
+import {Wrapper, RepoWrapper, RepoInfo, LargeText, Text, RepoHeader, Image, Flex} from "./styles";
 import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
+import {styles} from "./styles";
 
 export const repoRights = {
   Owner: 'Owner',
@@ -17,12 +18,13 @@ const Repository = (props) => {
   const [pullRequests, setPullRequests] = React.useState([]);
   const [starred, setStarred] = React.useState([]);
   const [watchers, setWatchers] = React.useState([]);
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   useEffect(() => {
     props.route.params.octokit.rest.repos.listForAuthenticatedUser()
       .then((value) => {
         console.log(value.data);
-        setRepo(value.data.count !== 0 ? value.data[13] : undefined);
+        setRepo(value.data.count !== 0 ? value.data[15] : undefined);
       });
   }, [])
 
@@ -112,9 +114,37 @@ const Repository = (props) => {
 
             <ButtonWithIcon
               Text={'Delete the repository'}
-              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+              onPress={() => setModalVisible(!modalVisible)}>
               <MaterialIcons name="delete" size={15} color="white" />
             </ButtonWithIcon>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => setModalVisible(!modalVisible)}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <LargeText>Are you sure ?</LargeText>
+                  <Flex>
+                    <Pressable
+                      style={styles.deleteButton}
+                      onPress={() => deleteRepo(
+                        props.route.params.navigation,
+                        props.route.params.octokit,
+                        repo
+                      )}>
+                      <Text>Delete</Text>
+                    </Pressable>
+                    <Pressable
+                      style={styles.button}
+                      onPress={() => setModalVisible(!modalVisible)}>
+                      <Text>Cancel</Text>
+                    </Pressable>
+                  </Flex>
+                </View>
+              </View>
+            </Modal>
           </RepoWrapper>
         :
         <ActivityIndicator size='large' color='#457cb7' />
@@ -130,6 +160,16 @@ const redirectToUser = (navigation, octokit, user) => {
 const getCode = (navigation, octokit, repo, branches, path) => {
   console.log(branches);
   navigation.push('RepositoryCode', { navigation: navigation, octokit: octokit, repo: repo, branches: branches, path: path })
+}
+
+const deleteRepo = (navigation, octokit, repo) => {
+  console.log(repo);
+  octokit.rest.repos.delete({
+    owner: repo.owner.login,
+    repo: repo.name
+  }).then(() => {
+    navigation.goBack();
+  })
 }
 
 export default Repository;

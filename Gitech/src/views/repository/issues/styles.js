@@ -57,6 +57,17 @@ export const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
+    backgroundColor: colors.button,
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.buttonBorder,
+    width: 100,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  greenButton: {
+    alignItems: "center",
     backgroundColor: '#238636',
     padding: 10,
     borderRadius: 10,

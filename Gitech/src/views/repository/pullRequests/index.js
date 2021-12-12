@@ -112,12 +112,17 @@ const PullRequests = (props) => {
                 Submit pull request
               </Text>
             </Pressable>
+            <Pressable
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text>Cancel</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
 
       <Pressable
-        style={styles.button}
+        style={styles.greenButton}
         onPress={() => setModalVisible(true)}>
         <Text>New pull request</Text>
       </Pressable>

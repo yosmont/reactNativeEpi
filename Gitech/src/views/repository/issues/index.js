@@ -60,12 +60,17 @@ const Issues = (props) => {
               )}>
               <Text style={stylesActive(newIssueTitle !== "").text}>Submit new issue</Text>
             </Pressable>
+            <Pressable
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text>Cancel</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
 
       <Pressable
-        style={styles.button}
+        style={styles.greenButton}
         onPress={() => setModalVisible(true)}>
         <Text>New issue</Text>
       </Pressable>
