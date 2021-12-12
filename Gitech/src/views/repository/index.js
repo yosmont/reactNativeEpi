@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {ActivityIndicator, Modal, Pressable, View} from 'react-native'
+import {ActivityIndicator, Modal, Pressable, ScrollView, View} from 'react-native'
 import {Wrapper, RepoWrapper, RepoInfo, LargeText, Text, RepoHeader, Image, Flex} from "./styles";
 import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
@@ -54,101 +54,103 @@ const Repository = (props) => {
 
   return (
     <Wrapper>
-      {repo ?
-          <RepoWrapper>
-            <RepoHeader>
-              <Image source={{ uri: repo.owner.avatar_url }} />
-              <RepoInfo>
-                <Text>Name : {repo.name}</Text>
-                <Flex>
-                  <Text>Owner : </Text>
-                  <TextLink text={' ' + repo.owner.login} onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, repo.owner.login)} />
-                </Flex>
-              </RepoInfo>
-            </RepoHeader>
-
-            <Text>{repo.description}</Text>
-
-            <ButtonWithIcon
-              Text={'Code'}
-              onPress={() =>
-                getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
-              <Feather name="code" size={15} color="white" />
-            </ButtonWithIcon>
-
-            <ButtonWithIcon
-              Text={'Issues (' + issues.length + ')'}
-              onPress={() =>
-                props.route.params.navigation.push('Issues', {
-                  navigation: props.route.params.navigation,
-                  octokit: props.route.params.octokit,
-                  repo: repo,
-                  issues: issues
-                })}>
-              <Ionicons name="alert-circle-outline" size={15} color="white" />
-            </ButtonWithIcon>
-
-            <ButtonWithIcon
-              Text={'Pull requests (' + pullRequests.length + ')'}
-              onPress={() =>
-                props.route.params.navigation.push('PullRequests', {
-                  navigation: props.route.params.navigation,
-                  octokit: props.route.params.octokit,
-                  repo: repo,
-                  pullRequests: pullRequests
-                })}>
-              <Ionicons name="git-pull-request-outline" size={15} color="white" />
-            </ButtonWithIcon>
-
-            <ButtonWithIcon
-              Text={'Starred (' + starred.length + ')'}
-              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
-              <Feather name="star" size={15} color="white" />
-            </ButtonWithIcon>
-
-            <ButtonWithIcon
-              Text={'Watchers (' + watchers.length + ')'}
-              onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
-              <Feather name="eye" size={15} color="white" />
-            </ButtonWithIcon>
-
-            <ButtonWithIcon
-              Text={'Delete the repository'}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <MaterialIcons name="delete" size={15} color="white" />
-            </ButtonWithIcon>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => setModalVisible(!modalVisible)}
-            >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <LargeText>Are you sure ?</LargeText>
+      <ScrollView>
+        {repo ?
+            <RepoWrapper>
+              <RepoHeader>
+                <Image source={{ uri: repo.owner.avatar_url }} />
+                <RepoInfo>
+                  <Text>Name : {repo.name}</Text>
                   <Flex>
-                    <Pressable
-                      style={styles.deleteButton}
-                      onPress={() => deleteRepo(
-                        props.route.params.navigation,
-                        props.route.params.octokit,
-                        repo
-                      )}>
-                      <Text>Delete</Text>
-                    </Pressable>
-                    <Pressable
-                      style={styles.button}
-                      onPress={() => setModalVisible(!modalVisible)}>
-                      <Text>Cancel</Text>
-                    </Pressable>
+                    <Text>Owner : </Text>
+                    <TextLink text={' ' + repo.owner.login} onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, repo.owner.login)} />
                   </Flex>
+                </RepoInfo>
+              </RepoHeader>
+
+              <Text>{repo.description}</Text>
+
+              <ButtonWithIcon
+                Text={'Code'}
+                onPress={() =>
+                  getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+                <Feather name="code" size={15} color="white" />
+              </ButtonWithIcon>
+
+              <ButtonWithIcon
+                Text={'Issues (' + issues.length + ')'}
+                onPress={() =>
+                  props.route.params.navigation.push('Issues', {
+                    navigation: props.route.params.navigation,
+                    octokit: props.route.params.octokit,
+                    repo: repo,
+                    issues: issues
+                  })}>
+                <Ionicons name="alert-circle-outline" size={15} color="white" />
+              </ButtonWithIcon>
+
+              <ButtonWithIcon
+                Text={'Pull requests (' + pullRequests.length + ')'}
+                onPress={() =>
+                  props.route.params.navigation.push('PullRequests', {
+                    navigation: props.route.params.navigation,
+                    octokit: props.route.params.octokit,
+                    repo: repo,
+                    pullRequests: pullRequests
+                  })}>
+                <Ionicons name="git-pull-request-outline" size={15} color="white" />
+              </ButtonWithIcon>
+
+              <ButtonWithIcon
+                Text={'Starred (' + starred.length + ')'}
+                onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+                <Feather name="star" size={15} color="white" />
+              </ButtonWithIcon>
+
+              <ButtonWithIcon
+                Text={'Watchers (' + watchers.length + ')'}
+                onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+                <Feather name="eye" size={15} color="white" />
+              </ButtonWithIcon>
+
+              <ButtonWithIcon
+                Text={'Delete the repository'}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <MaterialIcons name="delete" size={15} color="white" />
+              </ButtonWithIcon>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(!modalVisible)}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <LargeText>Are you sure ?</LargeText>
+                    <Flex>
+                      <Pressable
+                        style={styles.deleteButton}
+                        onPress={() => deleteRepo(
+                          props.route.params.navigation,
+                          props.route.params.octokit,
+                          repo
+                        )}>
+                        <Text>Delete</Text>
+                      </Pressable>
+                      <Pressable
+                        style={styles.button}
+                        onPress={() => setModalVisible(!modalVisible)}>
+                        <Text>Cancel</Text>
+                      </Pressable>
+                    </Flex>
+                  </View>
                 </View>
-              </View>
-            </Modal>
-          </RepoWrapper>
-        :
-        <ActivityIndicator size='large' color='#457cb7' />
-      }
+              </Modal>
+            </RepoWrapper>
+          :
+          <ActivityIndicator size='large' color='#457cb7' />
+        }
+      </ScrollView>
     </Wrapper>
   );
 }

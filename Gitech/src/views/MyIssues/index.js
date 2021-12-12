@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {styles, Flex, Text, Wrapper} from "./styles";
+import {Flex, Text, Wrapper} from "./styles";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 import { FontAwesome5 } from "@expo/vector-icons";
 

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Pressable, Modal, TextInput} from "react-native";
+import {View, Pressable, Modal, TextInput, ScrollView} from "react-native";
 import {styles, stylesActive, Flex, Text, Wrapper, StatusIcon} from "./styles";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 import {FontAwesome5, Ionicons} from "@expo/vector-icons";
@@ -26,76 +26,78 @@ const Issues = (props) => {
   console.log(issues);
   return (
     <Wrapper>
-      <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(!modalVisible)}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TextInput
-              placeholder={'Title'}
-              placeholderTextColor={'white'}
-              style={styles.textInput}
-              onChangeText={(value) => setNewIssueTitle(value)}
-            />
-            <TextInput
-              placeholder={'Leave a comment'}
-              placeholderTextColor={'white'}
-              style={styles.textInput}
-              multiline={true}
-              numberOfLines={4}
-              onChangeText={(value) => setNewIssueBody(value)}
-            />
-            <Pressable
-              style={stylesActive(newIssueTitle !== "").button}
-              onPress={() => createIssue(
-                props.route.params.octokit,
-                props.route.params.repo,
-                newIssueTitle,
-                newIssueBody,
-                setIssues,
-                setModalVisible
-              )}>
-              <Text style={stylesActive(newIssueTitle !== "").text}>Submit new issue</Text>
-            </Pressable>
-            <Pressable
-              style={styles.button}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text>Cancel</Text>
-            </Pressable>
+      <ScrollView>
+        <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TextInput
+                placeholder={'Title'}
+                placeholderTextColor={'white'}
+                style={styles.textInput}
+                onChangeText={(value) => setNewIssueTitle(value)}
+              />
+              <TextInput
+                placeholder={'Leave a comment'}
+                placeholderTextColor={'white'}
+                style={styles.textInput}
+                multiline={true}
+                numberOfLines={4}
+                onChangeText={(value) => setNewIssueBody(value)}
+              />
+              <Pressable
+                style={stylesActive(newIssueTitle !== "").button}
+                onPress={() => createIssue(
+                  props.route.params.octokit,
+                  props.route.params.repo,
+                  newIssueTitle,
+                  newIssueBody,
+                  setIssues,
+                  setModalVisible
+                )}>
+                <Text style={stylesActive(newIssueTitle !== "").text}>Submit new issue</Text>
+              </Pressable>
+              <Pressable
+                style={styles.button}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text>Cancel</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <Pressable
-        style={styles.greenButton}
-        onPress={() => setModalVisible(true)}>
-        <Text>New issue</Text>
-      </Pressable>
-      {
-        issues.length !== 0 ?
-          issues.map((issue) => (
-            <ButtonWithIcon
-              Text={issue.title}
-              onPress={() => getIssue(props.route.params.navigation, props.route.params.octokit, props.route.params.repo, issue)}>
-            <Flex>
-              <StatusIcon>
-                {
-                  issue.state === 'open' ?
-                    <FontAwesome5 name="check-circle" size={20} color="#238636"/>
-                    :
-                    <Ionicons name="alert-circle-outline" size={20} color="#8957e5"/>
-                }
-              </StatusIcon>
-              <FontAwesome5 name="comment-alt" size={15} color="white" />
-              <Text>  {issue.comments}</Text>
-            </Flex>
-          </ButtonWithIcon>
-          )) :
-          <Text>There are no issues for this repository</Text>
-      }
+        <Pressable
+          style={styles.greenButton}
+          onPress={() => setModalVisible(true)}>
+          <Text>New issue</Text>
+        </Pressable>
+        {
+          issues.length !== 0 ?
+            issues.map((issue) => (
+              <ButtonWithIcon
+                Text={issue.title}
+                onPress={() => getIssue(props.route.params.navigation, props.route.params.octokit, props.route.params.repo, issue)}>
+              <Flex>
+                <StatusIcon>
+                  {
+                    issue.state === 'open' ?
+                      <FontAwesome5 name="check-circle" size={20} color="#238636"/>
+                      :
+                      <Ionicons name="alert-circle-outline" size={20} color="#8957e5"/>
+                  }
+                </StatusIcon>
+                <FontAwesome5 name="comment-alt" size={15} color="white" />
+                <Text>  {issue.comments}</Text>
+              </Flex>
+            </ButtonWithIcon>
+            )) :
+            <Text>There are no issues for this repository</Text>
+        }
+      </ScrollView>
     </Wrapper>
   )
 }

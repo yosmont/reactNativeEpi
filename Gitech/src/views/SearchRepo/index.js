@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { Wrapper, ScrollCard, Card, LargeText } from "./styles";
 import CustomTextInput from "@components/CustomTextInput";
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
@@ -44,33 +44,35 @@ const SearchRepo = (props) => {
 
 	return (
 		<Wrapper>
-			<Card>
-		 		<LargeText>GitHub Search</LargeText>
-		 		<CustomTextInput text='Search' placeholder='Search' onValueChange={setresearch}/>
-		 		<CustomTextInput text='Language' placeholder='language' onValueChange={setresearchlanguage}/>
-		 		<CustomPicker text='Sort' Items={["stars", "forks", "help-wanted-issues", "updated"]} selectedValue={selectedValue} onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue) }/>
-		 		<LimitedWidthCustomButton width={300} onPress={ () => { setPage(0); octokitSearchRequest(); }} Text="Search" />
-			</Card>
+			<ScrollView>
+				<Card>
+					<LargeText>GitHub Search</LargeText>
+					<CustomTextInput text='Search' placeholder='Search' onValueChange={setresearch}/>
+					<CustomTextInput text='Language' placeholder='language' onValueChange={setresearchlanguage}/>
+					<CustomPicker text='Sort' Items={["stars", "forks", "help-wanted-issues", "updated"]} selectedValue={selectedValue} onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue) }/>
+					<LimitedWidthCustomButton width={300} onPress={ () => { setPage(0); octokitSearchRequest(); }} Text="Search" />
+				</Card>
 
-			<ScrollCard
-				onScroll={ ({nativeEvent}) =>  {
-					if (nativeEvent.contentOffset.y > 60) {
-						if (nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >= nativeEvent.contentSize.height) {
-							scrollRef.current?.scrollTo({y: 0, animated: true});
-							setPage(page + 1);
-							octokitSearchRequest();
+				<ScrollCard
+					onScroll={ ({nativeEvent}) =>  {
+						if (nativeEvent.contentOffset.y > 60) {
+							if (nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >= nativeEvent.contentSize.height) {
+								scrollRef.current?.scrollTo({y: 0, animated: true});
+								setPage(page + 1);
+								octokitSearchRequest();
+							}
 						}
+					}}
+					ref={scrollRef}
+				>
+					{
+						(recylerViewUpdate !== undefined) ?
+							recylerViewUpdate
+						:
+						<ActivityIndicator size='large' color='#457cb7' />
 					}
-				}}
-				ref={scrollRef}
-			>
-				{
-					(recylerViewUpdate !== undefined) ?
-            recylerViewUpdate
-					:
-          <ActivityIndicator size='large' color='#457cb7' />
-				}
-			</ScrollCard>
+				</ScrollCard>
+			</ScrollView>
 		</Wrapper>
 	)
 };

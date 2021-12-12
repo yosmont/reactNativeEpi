@@ -29,5 +29,10 @@ export const styles = StyleSheet.create({
     paddingLeft: 12,
     paddingRight: 12,
     color: 'white'
+  },
+  scrollView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
