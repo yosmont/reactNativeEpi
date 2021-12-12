@@ -6,9 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 const RepositoryCode = (props) => {
   const repo = props.route.params.repo;
-  const branches = props.route.params.branches;
+  const [branches, setBranches] = React.useState(undefined);
   const [path, setPath] = useState(props.route.params.path);
-  const [branch, setBranch] = useState(branches[0].name);
+  const [branch, setBranch] = useState(repo.default_branch);
   const [code, setCode] = React.useState(undefined);
 
   useEffect(() => {
@@ -22,6 +22,10 @@ const RepositoryCode = (props) => {
           console.log(value.data);
           setCode(value.data.sort(sortContent));
         });
+    props.route.params.octokit.rest.repos.listBranches({owner: repo.owner.login, repo: repo.name})
+      .then((value) => {
+        setBranches(value.data);
+      });
   }, [path, branch])
 
   const onPressContent = (item) => {

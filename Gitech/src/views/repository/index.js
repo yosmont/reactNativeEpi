@@ -13,23 +13,14 @@ export const repoRights = {
 
 const Repository = (props) => {
   const [repo, setRepo] = React.useState(undefined);
-  const [branches, setBranches] = React.useState(undefined);
 
   useEffect(() => {
     props.route.params.octokit.rest.repos.listForAuthenticatedUser()
       .then((value) => {
         console.log(value.data);
-        setRepo(value.data.count !== 0 ? value.data[13] : undefined);
+        setRepo(value.data.count !== 0 ? value.data[15] : undefined);
       });
   }, [])
-
-  useEffect(() => {
-    if (repo)
-      props.route.params.octokit.rest.repos.listBranches({owner: repo.owner.login, repo: repo.name})
-        .then((value) => {
-          setBranches(value.data);
-        });
-  }, [repo])
 
   return (
     <Wrapper>
@@ -46,19 +37,19 @@ const Repository = (props) => {
               </RepoInfo>
             </RepoHeader>
             <Text>{repo.description}</Text>
-            <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+            <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="code" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Issues'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+            <ButtonWithIcon Text={'Issues'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Ionicons name="alert-circle-outline" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Pull requests'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+            <ButtonWithIcon Text={'Pull requests'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Ionicons name="git-pull-request-outline" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Starred'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+            <ButtonWithIcon Text={'Starred'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="star" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Watchers'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+            <ButtonWithIcon Text={'Watchers'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="eye" size={15} color="white" />
             </ButtonWithIcon>
           </RepoWrapper>
