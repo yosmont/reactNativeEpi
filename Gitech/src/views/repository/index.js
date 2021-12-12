@@ -81,6 +81,7 @@ const Repository = (props) => {
                 props.route.params.navigation.push('Issues', {
                   navigation: props.route.params.navigation,
                   octokit: props.route.params.octokit,
+                  repo: repo,
                   issues: issues
                 })}>
               <Ionicons name="alert-circle-outline" size={15} color="white" />
