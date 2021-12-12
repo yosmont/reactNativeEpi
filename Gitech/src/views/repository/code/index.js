@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {styles, Card, Wrapper, Flex, BranchCard, FlexRow, PickerWrapper} from "./styles";
+import {styles, Card, Wrapper, BranchCard, FlexRow, PickerWrapper} from "./styles";
 import RepoContentRow from "@src/components/RepoContentRow";
 import {ActivityIndicator, Picker, View} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
@@ -25,7 +25,10 @@ const RepositoryCode = (props) => {
   }, [path, branch])
 
   const onPressContent = (item) => {
-    setPath(path === undefined ? item.name : path + '/' + item.name);
+    if (item.type === 'dir')
+      setPath(path === undefined ? item.name : path + '/' + item.name);
+    else
+      props.route.params.navigation.push('FileView', { octokit: props.route.params.octokit, repo: repo, path : path === undefined ? item.name : path + '/' + item.name, ref: branch });
   }
 
   const goBack = () => {
@@ -34,46 +37,47 @@ const RepositoryCode = (props) => {
 
   return (
     <Wrapper>
-      {code ?
-        <View>
-          <BranchCard>
-            <FlexRow>
-              <Ionicons style={{ flex: 0.2 }} name="ios-git-branch-outline" size={24} color="grey" />
-              <PickerWrapper>
-                <Picker
-                  selectedValue={branch}
-                  style={styles.picker}
-                  onValueChange={(value) => setBranch(value)}
-                >
-                  {
-                    branches ?
-                      branches.map((branch) => (
-                        <Picker.Item label={branch.name} value={branch.name} />
-                      ))
-                      :
-                      <Picker.Item label="main" value="main" />
-                  }
-                </Picker>
-              </PickerWrapper>
-            </FlexRow>
-          </BranchCard>
-          <Card>
-            {path !== '' && <RepoContentRow
-              item={'back'}
-              onPress={() => goBack()}
-            />}
-            {
-              code.map((item) => (
-                <RepoContentRow
-                  item={item}
-                  onPress={() => onPressContent(item)} />
-              ))
-            }
-          </Card>
-        </View>
-        :
-        <ActivityIndicator size='large' color='#457cb7' />
-      }
+      {
+        code ?
+          <View>
+            <BranchCard>
+              <FlexRow>
+                <Ionicons style={{ flex: 0.2 }} name="ios-git-branch-outline" size={24} color="grey" />
+                <PickerWrapper>
+                  <Picker
+                    selectedValue={branch}
+                    style={styles.picker}
+                    onValueChange={(value) => setBranch(value)}
+                  >
+                    {
+                      branches ?
+                        branches.map((branch) => (
+                          <Picker.Item label={branch.name} value={branch.name} />
+                        ))
+                        :
+                        <Picker.Item label="main" value="main" />
+                    }
+                  </Picker>
+                </PickerWrapper>
+              </FlexRow>
+            </BranchCard>
+            <Card>
+              {path !== '' && <RepoContentRow
+                item={'back'}
+                onPress={() => goBack()}
+              />}
+              {
+                code.map((item) => (
+                  <RepoContentRow
+                    item={item}
+                    onPress={() => onPressContent(item)} />
+                ))
+              }
+            </Card>
+          </View>
+          :
+          <ActivityIndicator size='large' color='#457cb7' />
+        }
     </Wrapper>
   );
 }

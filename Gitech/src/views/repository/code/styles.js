@@ -37,6 +37,10 @@ export const PickerWrapper = styled.View`
   height: 40px;
 `;
 
+export const Text = styled.Text`
+  color: ${colors.text};
+`;
+
 export const styles = StyleSheet.create({
   picker: {
     flex: 1,

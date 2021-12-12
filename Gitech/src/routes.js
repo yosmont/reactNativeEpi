@@ -6,6 +6,7 @@ import CreateRepos from '@views/CreateRepos';
 import Repository from "@views/repository";
 import SearchRepo from "@views/SearchRepo";
 import RepositoryCode from "@views/repository/code";
+import FileView from "@views/repository/code/file";
 
 const Stack = createNativeStackNavigator();
 
@@ -78,6 +79,17 @@ const Routes = () => {
               headerTintColor: '#fff'
             }}
           />
+        <Screen
+          component={FileView}
+          name="FileView"
+          options={{
+            title: 'File',
+            headerStyle: {
+              backgroundColor: '#2b2b2b'
+            },
+            headerTintColor: '#fff'
+          }}
+        />
     </Navigator>
   );
 };
