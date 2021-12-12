@@ -53,7 +53,7 @@ const UserView = (props) => {
 
     return (
       <Wrapper>
-        {user && starredCount && watchedCount ?
+        {user && (starredCount !== undefined) && (watchedCount !== undefined) ?
           <UserWrapper>
             {user && <Image source={{ uri: user.avatar_url }} />}
             <Text>{username ? username : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Wrapper, UserWrapper, Image, Text } from './styles';
+import { ActivityIndicator } from "react-native";
+import { Wrapper, UserWrapper, Image, Text, LargeText, Card } from './styles';
 
 function GetNbOfPage(linkStr) {
 
@@ -10,6 +11,11 @@ function GetNbOfPage(linkStr) {
 }
 
 const Home = (props) => {
+    <Wrapper>
+        <Card>
+            <LargeText>HOME</LargeText>
+        </Card>
+    </Wrapper>
 }
 
 export default Home;
