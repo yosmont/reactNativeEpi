@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {ActivityIndicator} from 'react-native'
-import {Wrapper, RepoWrapper, RepoHeader, Text, Flex, Image} from "./styles";
-import { Feather } from '@expo/vector-icons';
+import {Wrapper, RepoWrapper, RepoInfo, Text, RepoHeader, Image, Flex} from "./styles";
+import { Feather, Ionicons } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 
@@ -13,7 +13,10 @@ export const repoRights = {
 
 const Repository = (props) => {
   const [repo, setRepo] = React.useState(undefined);
-  const [branches, setBranches] = React.useState(undefined);
+  const [issues, setIssues] = React.useState([]);
+  const [pullRequests, setPullRequests] = React.useState([]);
+  const [starred, setStarred] = React.useState([]);
+  const [watchers, setWatchers] = React.useState([]);
 
   useEffect(() => {
     props.route.params.octokit.rest.repos.listForAuthenticatedUser()
@@ -24,30 +27,59 @@ const Repository = (props) => {
   }, [])
 
   useEffect(() => {
-    if (repo)
-      props.route.params.octokit.rest.repos.listBranches({owner: repo.owner.login, repo: repo.name})
+    if (repo) {
+      props.route.params.octokit.rest.issues.listForRepo({owner: repo.owner.login, repo: repo.name})
         .then((value) => {
-          setBranches(value.data);
-        });
+          console.log(value.data);
+          setIssues(value.data.filter((issue) => !issue.pull_request));
+        })
+      props.route.params.octokit.rest.pulls.list({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          console.log(value.data);
+          setPullRequests(value.data);
+        })
+      props.route.params.octokit.rest.activity.listStargazersForRepo({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          console.log(value.data);
+          setStarred(value.data);
+        })
+      props.route.params.octokit.rest.activity.listWatchersForRepo({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          console.log(value.data);
+          setWatchers(value.data);
+        })
+    }
   }, [repo])
 
   return (
     <Wrapper>
       {repo ?
           <RepoWrapper>
-            <Flex>
+            <RepoHeader>
               <Image source={{ uri: repo.owner.avatar_url }} />
-              <RepoHeader>
+              <RepoInfo>
                 <Text>Name : {repo.name}</Text>
-                <Text>
-                  Owner :
+                <Flex>
+                  <Text>Owner : </Text>
                   <TextLink text={' ' + repo.owner.login} onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, repo.owner.login)} />
-                </Text>
-              </RepoHeader>
-            </Flex>
+                </Flex>
+              </RepoInfo>
+            </RepoHeader>
             <Text>{repo.description}</Text>
-            <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+            <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="code" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Issues (' + issues.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+              <Ionicons name="alert-circle-outline" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Pull requests (' + pullRequests.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+              <Ionicons name="git-pull-request-outline" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Starred (' + starred.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+              <Feather name="star" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Watchers (' + watchers.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+              <Feather name="eye" size={15} color="white" />
             </ButtonWithIcon>
           </RepoWrapper>
         :

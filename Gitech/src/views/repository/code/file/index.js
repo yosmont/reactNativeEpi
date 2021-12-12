@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {Card, Wrapper, Text} from "./styles";
 import {ActivityIndicator} from "react-native";
+import {Base64} from 'js-base64';
 
 const FileView = (props) => {
   const repo = props.route.params.repo;
@@ -14,7 +15,8 @@ const FileView = (props) => {
       ref: props.route.params.branch
     })
       .then((value) => {
-        setFile(atob(value.data.content))
+        console.log('<\n' + value.data.content + '\n>');
+        setFile(Base64.decode(value.data.content))
       });
   }, [])
 
