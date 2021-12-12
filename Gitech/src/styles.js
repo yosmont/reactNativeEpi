@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingLeft: 12,
-    paddingRight: 12
+    paddingRight: 12,
+    color: 'white'
   }
 });

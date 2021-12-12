@@ -17,7 +17,7 @@ const Issues = (props) => {
         props.route.params.issues.map((issue) => (
           <ButtonWithIcon
             Text={issue.title}
-            onPress={() => getIssue(props.route.params.navigation, props.route.params.octokit, issue)}>
+            onPress={() => getIssue(props.route.params.navigation, props.route.params.octokit, props.route.params.repo, issue)}>
           <Flex>
             <FontAwesome5 name="comment-alt" size={15} color="white" />
             <Text>  {issue.comments}</Text>
@@ -29,8 +29,8 @@ const Issues = (props) => {
   )
 }
 
-const getIssue = (navigation, octokit, issue) => {
-  navigation.push('Issue', {navigation: navigation, octokit: octokit, issue: issue})
+const getIssue = (navigation, octokit, repo, issue) => {
+  navigation.push('Issue', {navigation: navigation, octokit: octokit, repo: repo, issue: issue})
 }
 
 const createIssue = (navigation, octokit) => {

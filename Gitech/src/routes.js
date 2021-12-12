@@ -8,6 +8,7 @@ import SearchRepo from "@views/SearchRepo";
 import RepositoryCode from "@views/repository/code";
 import FileView from "@views/repository/code/file";
 import Issues from "@views/repository/issues";
+import Issue from "@views/repository/issues/issue";
 import NewIssue from "@views/repository/issues/new";
 import Home from '@views/Home';
 import MyIssues from '@views/MyIssues';
@@ -99,6 +100,17 @@ const Routes = () => {
           name="Issues"
           options={{
             title: 'Issues',
+            headerStyle: {
+              backgroundColor: '#2b2b2b'
+            },
+            headerTintColor: '#fff'
+          }}
+        />
+        <Screen
+          component={Issue}
+          name="Issue"
+          options={{
+            title: 'Issue',
             headerStyle: {
               backgroundColor: '#2b2b2b'
             },
