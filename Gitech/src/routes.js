@@ -8,6 +8,7 @@ import SearchRepo from "@views/SearchRepo";
 import RepositoryCode from "@views/repository/code";
 import FileView from "@views/repository/code/file";
 import Issues from "@views/repository/issues";
+import NewIssue from "@views/repository/issues/new";
 import Home from '@views/Home';
 
 const Stack = createNativeStackNavigator();
@@ -97,6 +98,17 @@ const Routes = () => {
           name="Issues"
           options={{
             title: 'Issues',
+            headerStyle: {
+              backgroundColor: '#2b2b2b'
+            },
+            headerTintColor: '#fff'
+          }}
+        />
+        <Screen
+          component={NewIssue}
+          name="NewIssue"
+          options={{
+            title: 'Create an issue',
             headerStyle: {
               backgroundColor: '#2b2b2b'
             },
