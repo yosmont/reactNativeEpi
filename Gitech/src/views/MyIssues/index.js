@@ -34,7 +34,9 @@ const MyIssues = (props) => {
 }
 
 const getIssue = (navigation, octokit, issue) => {
-  navigation.push('Issue', {navigation: navigation, octokit: octokit, issue: issue})
+    octokit.rest.repos.get({ owner: issue.repository.owner.login, repo: issue.repository.name }).then((value) => {
+        navigation.push('Issue', { navigation: navigation, octokit: octokit, repo: value.data, issue: issue })
+    });
 }
 
 export default MyIssues;
