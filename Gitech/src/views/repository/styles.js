@@ -11,7 +11,7 @@ export const RepoWrapper = styled.View`
   flex: 1;
 `;
 
-export const RepoHeader = styled.View`
+export const RepoInfo = styled.View`
   height: 50px;
 `;
 
@@ -19,9 +19,14 @@ export const Text = styled.Text`
   color: ${colors.text};
 `;
 
-export const Flex = styled.View`
+export const RepoHeader = styled.View`
   flex-direction: row;
   height: 75px;
+`;
+
+export const Flex = styled.View`
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const Image = styled.Image`

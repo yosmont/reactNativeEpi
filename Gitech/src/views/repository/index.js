@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {ActivityIndicator} from 'react-native'
-import {Wrapper, RepoWrapper, RepoHeader, Text, Flex, Image} from "./styles";
+import {Wrapper, RepoWrapper, RepoInfo, Text, RepoHeader, Image, Flex} from "./styles";
 import { Feather, Ionicons } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
@@ -35,16 +35,16 @@ const Repository = (props) => {
     <Wrapper>
       {repo ?
           <RepoWrapper>
-            <Flex>
+            <RepoHeader>
               <Image source={{ uri: repo.owner.avatar_url }} />
-              <RepoHeader>
+              <RepoInfo>
                 <Text>Name : {repo.name}</Text>
-                <Text>
-                  Owner :
+                <Flex>
+                  <Text>Owner : </Text>
                   <TextLink text={' ' + repo.owner.login} onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, repo.owner.login)} />
-                </Text>
-              </RepoHeader>
-            </Flex>
+                </Flex>
+              </RepoInfo>
+            </RepoHeader>
             <Text>{repo.description}</Text>
             <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
               <Feather name="code" size={15} color="white" />
