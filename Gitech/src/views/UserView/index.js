@@ -5,7 +5,6 @@ import CreateReposButton from "@components/UserView/CreateReposButton";
 import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
 import {ActivityIndicator} from "react-native";
-import SearchReposButton from "@components/UserView/SearchReposButton";
 import FollowButton from "@components/UserView/FollowButton";
 
 function GetNbOfPage(linkStr) {
@@ -67,7 +66,6 @@ const UserView = (props) => {
                 :
                 <FollowButton octokit={octokit} username={username} />
             }
-            <SearchReposButton navigation={props.navigation} octokit={octokit} />
           </UserWrapper>
           :
           <ActivityIndicator size='large' color='#457cb7' />

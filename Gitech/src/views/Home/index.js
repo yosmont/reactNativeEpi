@@ -3,6 +3,7 @@ import { ActivityIndicator } from "react-native";
 import { Wrapper, UserWrapper, Image, Text, LargeText, Card } from './styles';
 
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
+import SearchReposButton from "@components/UserView/SearchReposButton";
 
 function GetNbOfPage(linkStr) {
 
@@ -55,6 +56,7 @@ const Home = (props) => {
                 {/*<LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />*/}
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} width={300} />
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} width={300} />
+                <SearchReposButton navigation={props.navigation} octokit={octokit} />
             </Card>
         </Wrapper>
     );

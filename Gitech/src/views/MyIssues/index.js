@@ -16,7 +16,7 @@ const MyIssues = (props) => {
   }, []);
   return (
     <Wrapper>
-      { issues ? issues.map((issue) => (
+      { issues ? (issues.length !== 0 ? issues.map((issue) => (
             <ButtonWithIcon
               Text={issue.title}
               onPress={() => getIssue(props.route.params.navigation, octokit, issue)}>
@@ -26,6 +26,9 @@ const MyIssues = (props) => {
             </Flex>
           </ButtonWithIcon>
           ))
+          :
+          <Text>There are no issues for this user</Text>
+          )
         :
         <ActivityIndicator size='large' color='#457cb7' />
       }
