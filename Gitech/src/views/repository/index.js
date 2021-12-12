@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {ActivityIndicator} from 'react-native'
 import {Wrapper, RepoWrapper, RepoHeader, Text, Flex, Image} from "./styles";
-import { Feather } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 
@@ -48,6 +48,18 @@ const Repository = (props) => {
             <Text>{repo.description}</Text>
             <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
               <Feather name="code" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Issues'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+              <Ionicons name="alert-circle-outline" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Pull requests'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+              <Ionicons name="git-pull-request-outline" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Starred'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+              <Feather name="star" size={15} color="white" />
+            </ButtonWithIcon>
+            <ButtonWithIcon Text={'Watchers'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, branches, '')}>
+              <Feather name="eye" size={15} color="white" />
             </ButtonWithIcon>
           </RepoWrapper>
         :
