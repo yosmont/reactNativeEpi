@@ -18,20 +18,39 @@ function GoToMyUserView(navigation, octokit) {
     });
 }
 
-function ToSet(navigation, octokit) {
+function NotImplemented(navigation, octokit) {
     alert("not implemented");
 }
 
 const Home = (props) => {
     const octokit = props.route.params.octokit;
+    const [reposBtnTxt, onReposBtnTxtLoad] = React.useState("My repository");
+    const [issuesBtnTxt, onIssuesBtnTxtLoad] = React.useState("My issues");
+    const [starredBtnTxt, onStarredBtnTxtLoad] = React.useState("My starred");
+    const [watchedBtnTxt, onWatchedBtnTxtLoad] = React.useState("My watched");
+    useEffect(() => {
+        octokit.rest.repos.listForAuthenticatedUser({ per_page: 1 }).then((value) => {
+            onReposBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " repository");
+        });
+        octokit.rest.issues.list({ per_page: 1 }).then((value) => {
+            onIssuesBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " issues");
+        });
+        octokit.rest.activity.listReposStarredByAuthenticatedUser({ per_page: 1 }).then((value) => {
+            onStarredBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " starred");
+        });
+        octokit.rest.activity.listWatchedReposForAuthenticatedUser({ per_page: 1 }).then((value) => {
+            onWatchedBtnTxtLoad("My " + GetNbOfPage(value.headers.link) + " watched");
+        });
+    })
     return (
         <Wrapper>
             <Card>
                 <LimitedWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" width={300} />
-                <LimitedWidthCustomButton onPress={() => ToSet(props.navigation, octokit)} Text="My repository" width={300} />
-                <LimitedWidthCustomButton onPress={() => ToSet(props.navigation, octokit)} Text="My issues" width={300} />
-                <LimitedWidthCustomButton onPress={() => ToSet(props.navigation, octokit)} Text="My pull request" width={300} />
-                <LimitedWidthCustomButton onPress={() => ToSet(props.navigation, octokit)} Text="My favorites" width={300} />
+                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} width={300} />
+                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={issuesBtnTxt} width={300} />
+                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />
+                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} width={300} />
+                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} width={300} />
             </Card>
         </Wrapper>
     );
