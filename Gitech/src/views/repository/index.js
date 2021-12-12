@@ -13,14 +13,43 @@ export const repoRights = {
 
 const Repository = (props) => {
   const [repo, setRepo] = React.useState(undefined);
+  const [issues, setIssues] = React.useState([]);
+  const [pullRequests, setPullRequests] = React.useState([]);
+  const [starred, setStarred] = React.useState([]);
+  const [watchers, setWatchers] = React.useState([]);
 
   useEffect(() => {
     props.route.params.octokit.rest.repos.listForAuthenticatedUser()
       .then((value) => {
         console.log(value.data);
-        setRepo(value.data.count !== 0 ? value.data[15] : undefined);
+        setRepo(value.data.count !== 0 ? value.data[13] : undefined);
       });
   }, [])
+
+  useEffect(() => {
+    if (repo) {
+      props.route.params.octokit.rest.issues.listForRepo({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          console.log(value.data);
+          setIssues(value.data.filter((issue) => !issue.pull_request));
+        })
+      props.route.params.octokit.rest.pulls.list({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          console.log(value.data);
+          setPullRequests(value.data);
+        })
+      props.route.params.octokit.rest.activity.listStargazersForRepo({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          console.log(value.data);
+          setStarred(value.data);
+        })
+      props.route.params.octokit.rest.activity.listWatchersForRepo({owner: repo.owner.login, repo: repo.name})
+        .then((value) => {
+          console.log(value.data);
+          setWatchers(value.data);
+        })
+    }
+  }, [repo])
 
   return (
     <Wrapper>
@@ -40,16 +69,16 @@ const Repository = (props) => {
             <ButtonWithIcon Text={'Code'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="code" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Issues'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+            <ButtonWithIcon Text={'Issues (' + issues.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Ionicons name="alert-circle-outline" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Pull requests'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+            <ButtonWithIcon Text={'Pull requests (' + pullRequests.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Ionicons name="git-pull-request-outline" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Starred'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+            <ButtonWithIcon Text={'Starred (' + starred.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="star" size={15} color="white" />
             </ButtonWithIcon>
-            <ButtonWithIcon Text={'Watchers'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+            <ButtonWithIcon Text={'Watchers (' + watchers.length + ')'} onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
               <Feather name="eye" size={15} color="white" />
             </ButtonWithIcon>
           </RepoWrapper>
