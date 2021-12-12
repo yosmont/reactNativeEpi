@@ -8,13 +8,22 @@ export const Wrapper = styled.View`
   align-items: center;
 `;
 
-export const Card = styled.ScrollView`
+export const ScrollCard = styled.ScrollView`
   background-color: #0d1117;
   border-width: 1px;
   border-color: #242c35;
   border-radius: 25px;
   padding: 20px;
   marginVertical: 20px;
+  margin-bottom: 70px;
+`;
+
+export const Card = styled.View`
+  background-color: #0d1117;
+  border-width: 1px;
+  border-color: #242c35;
+  border-radius: 25px;
+  padding: 20px;
 `;
 
 export const LargeText = styled.Text`
