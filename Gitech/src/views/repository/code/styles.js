@@ -35,6 +35,7 @@ export const PickerWrapper = styled.View`
   border-color: ${colors.buttonBorder};
   background-color: ${colors.button};
   height: 40px;
+  margin-left: 5px;
 `;
 
 export const Text = styled.Text`
@@ -43,10 +44,10 @@ export const Text = styled.Text`
 
 export const styles = StyleSheet.create({
   picker: {
-    flex: 1,
+    flex: 0.9,
     margin: 5,
     padding: 5,
-    minWidth: 100,
+    minWidth: 150,
     color: colors.text
   }
 });
