@@ -48,7 +48,7 @@ const Home = (props) => {
                 <LimitedWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" width={300} />
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} width={300} />
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={issuesBtnTxt} width={300} />
-                <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />
+                {/*<LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />*/}
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} width={300} />
                 <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} width={300} />
             </Card>
