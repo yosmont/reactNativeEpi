@@ -26,7 +26,8 @@ const UserView = (props) => {
     const [watchedCount, onWatchedLoaded] = React.useState(undefined);
     const [avatar, onAvatarLoaded] = React.useState(undefined);
 
-    useEffect( () => {
+    useEffect(() => {
+        console.log("hello world");
         if (username) {
           octokit.rest.users.getByUsername({ username: username }).then((value) => {
               onUserLoaded(value.data);
@@ -39,7 +40,7 @@ const UserView = (props) => {
             onStarredLoaded(GetNbOfPage(value.headers.link));
           });
         }
-      }, [refreshing])
+      }, [username, refreshing])
 
     useEffect(() => {
       if (!username) {
