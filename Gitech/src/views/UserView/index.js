@@ -7,6 +7,7 @@ import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
 import {ActivityIndicator, RefreshControl, ScrollView} from "react-native";
 import FollowButton from "@components/UserView/FollowButton";
+import FullWidthCustomButton from '../../components/FullWidthCustomButton';
 
 function GetNbOfPage(linkStr) {
 

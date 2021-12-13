@@ -33,6 +33,16 @@ function NotImplemented(navigation, octokit) {
     alert("not implemented");
 }
 
+function TestUserView(navigation, octokit, username) {
+    navigation.navigate('UserView', { navigation: navigation, octokit: octokit, username: username });
+}
+
+function TestReposView(navigation, octokit) {
+    octokit.rest.users.getAuthenticated().then((value) => {
+        navigation.push('Repository', { navigation: navigation, octokit: octokit, user: value.data });
+    });
+}
+
 const Home = (props) => {
     const octokit = props.route.params.octokit;
     const [refreshing, setRefreshing] = React.useState(false);
@@ -77,6 +87,9 @@ const Home = (props) => {
                         <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyStar")} Text={starredBtnTxt} />
                         <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyWatch")} Text={watchedBtnTxt} />
                         <SearchReposButton navigation={props.navigation} octokit={octokit} />
+
+                        <FullWidthCustomButton onPress={() => TestUserView(props.navigation, octokit, "Thorinair")} Text="Open a User" />
+                        <FullWidthCustomButton onPress={() => TestReposView(props.navigation, octokit)} Text="Open a Repos" />
                     </UserWrapper>
                 </ScrollView>
             </UserWrapper>
