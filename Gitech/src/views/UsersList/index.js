@@ -44,7 +44,7 @@ const UsersList = (props) => {
 		setRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
 			GoToUser(props.navigation, octokit, item.full_name);
 		}
-		} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
+		} text="" usfull={props.octokit, props.navigation} Items={Items} />);
 	}
 
 	function updateListMyFollowing() {
