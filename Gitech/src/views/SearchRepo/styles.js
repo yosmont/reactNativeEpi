@@ -15,7 +15,8 @@ export const ScrollCard = styled.ScrollView`
   border-radius: 25px;
   padding: 20px;
   marginVertical: 20px;
-  margin-bottom: 70px;
+  margin-bottom: 10px;
+  height: 300px;
 `;
 
 export const Card = styled.View`
@@ -27,6 +28,6 @@ export const Card = styled.View`
 `;
 
 export const LargeText = styled.Text`
-  font-size: 30px;
+  font-size: 20px;
   color: white;
 `
