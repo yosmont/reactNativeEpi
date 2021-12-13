@@ -97,13 +97,13 @@ const Repository = (props) => {
 
               <ButtonWithIcon
                 Text={'Starred (' + starred.length + ')'}
-                onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+                onPress={() => GoToUserList(props.route.params.navigation, props.route.params.octokit, repo, "RepoStar")}>
                 <Feather name="star" size={15} color="white" />
               </ButtonWithIcon>
 
               <ButtonWithIcon
                 Text={'Watchers (' + watchers.length + ')'}
-                onPress={() => getCode(props.route.params.navigation, props.route.params.octokit, repo, '')}>
+                onPress={() => GoToUserList(props.route.params.navigation, props.route.params.octokit, repo, "RepoWatch")}>
                 <Feather name="eye" size={15} color="white" />
               </ButtonWithIcon>
 
@@ -160,6 +160,10 @@ const redirectToUser = (navigation, octokit, user) => {
 const getCode = (navigation, octokit, repo, branches, path) => {
   console.log(branches);
   navigation.push('RepositoryCode', { navigation: navigation, octokit: octokit, repo: repo, branches: branches, path: path })
+}
+
+function GoToUserList(navigation, octokit, repo, type) {
+  navigation.navigate('UsersList', { navigation: navigation, octokit: octokit, type: type, username: repo.owner.login, repoName: repo.name });
 }
 
 const deleteRepo = (navigation, octokit, repo) => {

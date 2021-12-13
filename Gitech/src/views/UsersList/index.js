@@ -21,6 +21,7 @@ const UsersList = (props) => {
 	const octokit = props.route.params.octokit;
 	const type = props.route.params.type;
 	const username = props.route.params.username;
+	const repoName = props.route.params.repoName;
     const [recylerViewUpdate, setRecylerViewUpdate] = React.useState(undefined);
 	const [page, setPage] = React.useState(0);
 	const [maxPage, setMaxPage] = React.useState(-1);
@@ -85,9 +86,25 @@ const UsersList = (props) => {
 	}
 
 	function updateRepoWatch() {
+		octokit.rest.activity.listStargazersForRepo({
+			per_page: perPage,
+			page: page,
+			owner: username,
+			repo: repoName,
+		}).then((result) => {
+			updateList(result);
+		});
 	}
 
 	function updateRepoStar() {
+		octokit.rest.activity.listWatchersForRepo({
+			per_page: perPage,
+			page: page,
+			owner: username,
+			repo: repoName,
+		}).then((result) => {
+			updateList(result);
+		});
 	}
 
 	useEffect(() => {
