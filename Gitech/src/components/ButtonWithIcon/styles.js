@@ -21,6 +21,7 @@ export const Pressable = styled.Pressable`
 
 export const Text = styled.Text`
   color: ${colors.text};
+  flex-shrink: 1;
 `;
 
 export const styles = StyleSheet.create({
