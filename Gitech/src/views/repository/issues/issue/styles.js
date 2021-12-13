@@ -29,6 +29,7 @@ export const CardHeader = styled.View`
   border-radius: 3px;
   padding: 5px;
   margin: 1px 1px 5px 1px;
+  flex-direction: row;
 `;
 
 export const NewComment = styled.View`

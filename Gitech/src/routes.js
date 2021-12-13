@@ -11,6 +11,7 @@ import Issues from "@views/repository/issues";
 import Issue from "@views/repository/issues/issue";
 import NewIssue from "@views/repository/issues/new";
 import PullRequests from "@views/repository/pullRequests";
+import PullRequest from "@views/repository/pullRequests/pullRequest";
 import Home from '@views/Home';
 import MyIssues from '@views/MyIssues';
 import ReposList from "@views/ReposList";
@@ -136,6 +137,17 @@ const Routes = () => {
           name="PullRequests"
           options={{
             title: 'Pull Requests',
+            headerStyle: {
+              backgroundColor: '#2b2b2b'
+            },
+            headerTintColor: '#fff'
+          }}
+        />
+        <Screen
+          component={PullRequest}
+          name="PullRequest"
+          options={{
+            title: 'Pull Request',
             headerStyle: {
               backgroundColor: '#2b2b2b'
             },

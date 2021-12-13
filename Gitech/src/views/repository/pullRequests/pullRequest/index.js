@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Pressable, ScrollView, Text, TextInput, View} from "react-native";
-import {FontAwesome5, Ionicons} from '@expo/vector-icons';
+import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import {
   styles,
   stylesActive,
@@ -14,21 +14,22 @@ import {
   Wrapper,
   Flex
 } from "./styles";
+import TextLink from "@src/components/TextLink";
 
-const Issue = (props) => {
+const PullRequest = (props) => {
   const octokit = props.route.params.octokit;
-  const issue = props.route.params.issue;
+  const pullRequest = props.route.params.pullRequest;
   const [comments, setComments] = React.useState([]);
   const [changeCounter, setChangeCounter] = React.useState(0);
   const [newComment, setNewComment] = React.useState(undefined);
-  const [state, setState] = React.useState(issue.state);
+  const [state, setState] = React.useState(pullRequest.state);
 
   console.log(props.route.params);
   useEffect(() => {
-    octokit.rest.issues.listComments({
+    octokit.rest.pulls.listReviewComments({
       owner: props.route.params.repo.owner.login,
       repo: props.route.params.repo.name,
-      issue_number: issue.number
+      pull_number: pullRequest.number
     }).then((value) => {
       console.log(value.data);
       setComments(value.data);
@@ -40,16 +41,24 @@ const Issue = (props) => {
   return (
     <Wrapper>
       <ScrollView>
-        <LargeText>{issue.title}</LargeText>
+        <LargeText>{pullRequest.title}</LargeText>
         <View style={stylesStatus(state === 'open').status}>
           {
             state === 'open' ?
-              <FontAwesome5 name="check-circle" size={15} color="white"/>
+              <Ionicons name="git-pull-request-outline" size={15} color="white"/>
               :
-              <Ionicons name="alert-circle-outline" size={15} color="white"/>
+              <MaterialCommunityIcons name="cancel" size={15} color="white"/>
           }
             <WhiteText>{state === 'open' ? "  Open" : "  Closed"}</WhiteText>
         </View>
+        <Flex>
+          <WhiteText>Author : </WhiteText>
+          <TextLink
+            text={' ' + pullRequest.user.login}
+            onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, pullRequest.user.login)}
+          />
+        </Flex>
+        <WhiteText>Created : {pullRequest.created_at}</WhiteText>
         {
           comments.map((comment) => (
             <Card>
@@ -66,7 +75,8 @@ const Issue = (props) => {
         <NewComment>
           <TextInput
             value={newComment}
-            placeholderTextColor={'white'}
+            placeholder={'Leave a comment'}
+            placeholderTextColor={'grey'}
             multiline={true}
             numberOfLines={4}
             style={stylesActive(newComment !== "" && state === 'open').textInput}
@@ -78,7 +88,7 @@ const Issue = (props) => {
               onPress={() => postComment(
                 octokit,
                 props.route.params.repo,
-                issue.number,
+                pullRequest.number,
                 newComment,
                 changeCounter,
                 setChangeCounter,
@@ -88,15 +98,15 @@ const Issue = (props) => {
             </Pressable>
             <Pressable
               style={styles.close}
-              onPress={() => toggleIssueState(
+              onPress={() => togglePRState(
                 octokit,
                 props.route.params.repo,
-                issue.number,
+                pullRequest.number,
                 state,
                 setState
               )}>
-              {state === 'open' && <FontAwesome5 name="check-circle" size={15} color='#8957e5'/>}
-              <WhiteText>  {state === 'open' ? 'Close issue' : 'Reopen issue'}</WhiteText>
+              {state === 'open' && <MaterialCommunityIcons name="close" size={15} color='red'/>}
+              <WhiteText>  {state === 'open' ? 'Close pull request' : 'Reopen pull request'}</WhiteText>
             </Pressable>
           </Flex>
         </NewComment>
@@ -107,10 +117,10 @@ const Issue = (props) => {
 
 const postComment = (octokit, repo, id, body, changeCounter, setChangeCounter, setNewComment) => {
   if (body !== "") {
-    octokit.rest.issues.createComment({
+    octokit.rest.pulls.createReviewComment({
       owner: repo.owner.login,
       repo: repo.name,
-      issue_number: id,
+      pull_number: id,
       body: body
     }).then(() => {
       setChangeCounter(changeCounter + 1);
@@ -119,15 +129,19 @@ const postComment = (octokit, repo, id, body, changeCounter, setChangeCounter, s
   }
 }
 
-const toggleIssueState = (octokit, repo, id, state, setState) => {
-  octokit.rest.issues.update({
+const togglePRState = (octokit, repo, id, state, setState) => {
+  octokit.rest.pulls.update({
     owner: repo.owner.login,
     repo: repo.name,
-    issue_number: id,
+    pull_number: id,
     state: state === 'open' ? 'closed' : 'open'
   }).then(() => {
     setState(state === 'open' ? 'closed' : 'open')
   })
 }
 
-export default Issue;
+const redirectToUser = (navigation, octokit, user) => {
+  navigation.push('UserView', { navigation: navigation, octokit: octokit, username: user })
+}
+
+export default PullRequest;

@@ -79,6 +79,7 @@ const Issues = (props) => {
           issues.length !== 0 ?
             issues.map((issue) => (
               <ButtonWithIcon
+                key={issue.url}
                 Text={issue.title}
                 onPress={() => getIssue(props.route.params.navigation, props.route.params.octokit, props.route.params.repo, issue)}>
               <Flex>

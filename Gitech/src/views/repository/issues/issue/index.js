@@ -14,6 +14,7 @@ import {
   Wrapper,
   Flex
 } from "./styles";
+import TextLink from "@src/components/TextLink";
 
 const Issue = (props) => {
   const octokit = props.route.params.octokit;
@@ -50,11 +51,23 @@ const Issue = (props) => {
           }
             <WhiteText>{state === 'open' ? "  Open" : "  Closed"}</WhiteText>
         </View>
+        <Flex>
+          <WhiteText>Author : </WhiteText>
+          <TextLink
+            text={' ' + issue.user.login}
+            onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, issue.user.login)}
+          />
+        </Flex>
+        <WhiteText>Created : {issue.created_at}</WhiteText>
         {
           comments.map((comment) => (
-            <Card>
+            <Card key={comment.url}>
               <CardHeader>
-                <WhiteText>{comment.user.login + ' commented'}</WhiteText>
+                <TextLink
+                  text={comment.user.login}
+                  onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, issue.user.login)}
+                />
+                <WhiteText> commented</WhiteText>
               </CardHeader>
               <Padding>
                 <WhiteText>{comment.body}</WhiteText>
@@ -66,7 +79,8 @@ const Issue = (props) => {
         <NewComment>
           <TextInput
             value={newComment}
-            placeholderTextColor={'white'}
+            placeholder={'Leave a comment'}
+            placeholderTextColor={'grey'}
             multiline={true}
             numberOfLines={4}
             style={stylesActive(newComment !== "" && state === 'open').textInput}
@@ -103,6 +117,10 @@ const Issue = (props) => {
       </ScrollView>
     </Wrapper>
   )
+}
+
+const redirectToUser = (navigation, octokit, user) => {
+  navigation.push('UserView', { navigation: navigation, octokit: octokit, username: user })
 }
 
 const postComment = (octokit, repo, id, body, changeCounter, setChangeCounter, setNewComment) => {

@@ -39,6 +39,8 @@ const RepositoryCode = (props) => {
     setPath(path.slice(0, path.lastIndexOf('/')));
   }
 
+  console.log(code);
+
   return (
     <Wrapper>
       <ScrollView>
@@ -57,7 +59,7 @@ const RepositoryCode = (props) => {
                       {
                         branches ?
                           branches.map((branch) => (
-                            <Picker.Item label={branch.name} value={branch.name} />
+                            <Picker.Item key={branch.name} label={branch.name} value={branch.name} />
                           ))
                           :
                           <Picker.Item label="main" value="main" />
@@ -74,6 +76,7 @@ const RepositoryCode = (props) => {
                 {
                   code.map((item) => (
                     <RepoContentRow
+                      key={item.url}
                       item={item}
                       onPress={() => onPressContent(item)} />
                   ))

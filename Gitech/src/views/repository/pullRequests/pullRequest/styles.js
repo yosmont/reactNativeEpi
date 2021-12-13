@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: colors.buttonBorder,
-    width: 120,
+    width: 160,
     marginTop: 10,
     marginLeft: 10,
     flexDirection: 'row'
@@ -98,7 +98,7 @@ export const stylesActive = (active) => StyleSheet.create({
 export const stylesStatus = (open) => StyleSheet.create({
   status: {
     alignItems: "center",
-    backgroundColor: open ? '#238636' : '#8957e5',
+    backgroundColor: open ? '#238636' : 'red',
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
