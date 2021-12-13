@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {ActivityIndicator, Modal, Pressable, ScrollView, View} from 'react-native'
 import {Wrapper, RepoWrapper, RepoInfo, LargeText, Text, RepoHeader, Image, Flex} from "./styles";
-import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Feather, Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import TextLink from "@src/components/TextLink";
 import ButtonWithIcon from "@src/components/ButtonWithIcon";
 import {styles} from "./styles";
@@ -100,6 +100,12 @@ const Repository = (props) => {
                 Text={'Watchers (' + watchers.length + ')'}
                 onPress={() => GoToUserList(props.route.params.navigation, props.route.params.octokit, repo, "RepoWatch")}>
                 <Feather name="eye" size={15} color="white" />
+              </ButtonWithIcon>
+
+              <ButtonWithIcon
+                Text={'Forks (' + watchers.length + ')'}
+                onPress={() => GoToUserList(props.route.params.navigation, props.route.params.octokit, repo, "RepoWatch")}>
+                <FontAwesome name="code-fork" size={15} color="white" />
               </ButtonWithIcon>
 
               {
