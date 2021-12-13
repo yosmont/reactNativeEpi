@@ -13,7 +13,7 @@ function GetNbOfPage(linkStr) {
 }
 
 function GoToUser(navigation, octokit, username) {
-	navigation.navigate('UserView', { navigation: navigation, octokit: octokit, username: username, user: undefined });
+	navigation.push('UserView', { navigation: navigation, octokit: octokit, username: username, user: undefined });
 }
 
 const UsersList = (props) => {

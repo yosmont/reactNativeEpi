@@ -3,9 +3,9 @@ import FullWidthCustomButton from "@components/FullWidthCustomButton";
 
 function GoToReposList(navigation, octokit, type, username) {
     if (!username)
-        navigation.navigate('ReposList', { navigation: navigation, octokit: octokit, type: type });
+        navigation.push('ReposList', { navigation: navigation, octokit: octokit, type: type });
     else
-        navigation.navigate('ReposList', { navigation: navigation, octokit: octokit, type: type, username: username });
+        navigation.push('ReposList', { navigation: navigation, octokit: octokit, type: type, username: username });
 }
 
 const ReposListButton = (props) => {

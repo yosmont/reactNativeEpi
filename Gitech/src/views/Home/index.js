@@ -17,16 +17,16 @@ function GetNbOfPage(linkStr) {
 
 function GoToMyUserView(navigation, octokit) {
     octokit.rest.users.getAuthenticated().then((value) => {
-        navigation.navigate('UserView', { navigation: navigation, octokit: octokit, user: value.data ? value.data : undefined });
+        navigation.push('UserView', { navigation: navigation, octokit: octokit, user: value.data ? value.data : undefined });
     });
 }
 
 function GoToMyIssues(navigation, octokit) {
-    navigation.navigate('MyIssues', { navigation: navigation, octokit: octokit });
+    navigation.push('MyIssues', { navigation: navigation, octokit: octokit });
 }
 
 function GoToReposList(navigation, octokit, type) {
-    navigation.navigate('ReposList', { navigation: navigation, octokit: octokit, type: type });
+    navigation.push('ReposList', { navigation: navigation, octokit: octokit, type: type });
 }
 
 function NotImplemented(navigation, octokit) {
@@ -34,7 +34,7 @@ function NotImplemented(navigation, octokit) {
 }
 
 function TestUserView(navigation, octokit, username) {
-    navigation.navigate('UserView', { navigation: navigation, octokit: octokit, username: username });
+    navigation.push('UserView', { navigation: navigation, octokit: octokit, username: username });
 }
 
 function TestReposView(navigation, octokit) {
@@ -46,10 +46,10 @@ function TestReposView(navigation, octokit) {
 const Home = (props) => {
     const octokit = props.route.params.octokit;
     const [refreshing, setRefreshing] = React.useState(false);
-    const [reposBtnTxt, onReposBtnTxtLoad] = React.useState("My repository");
-    const [issuesBtnTxt, onIssuesBtnTxtLoad] = React.useState("My issues");
-    const [starredBtnTxt, onStarredBtnTxtLoad] = React.useState("My starred");
-    const [watchedBtnTxt, onWatchedBtnTxtLoad] = React.useState("My watched");
+    const [reposBtnTxt, onReposBtnTxtLoad] = React.useState(undefined);
+    const [issuesBtnTxt, onIssuesBtnTxtLoad] = React.useState(undefined);
+    const [starredBtnTxt, onStarredBtnTxtLoad] = React.useState(undefined);
+    const [watchedBtnTxt, onWatchedBtnTxtLoad] = React.useState(undefined);
 
     useEffect(() => {
         octokit.rest.repos.listForAuthenticatedUser({ per_page: 1 }).then((value) => {
@@ -79,15 +79,20 @@ const Home = (props) => {
                       />
                   }
                 >
-                    <UserWrapper>
-                        <FullWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" />
-                        <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyRepos")} Text={reposBtnTxt} />
-                        <FullWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} />
-                        {/*<FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" />*/}
-                        <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyStar")} Text={starredBtnTxt} />
-                        <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyWatch")} Text={watchedBtnTxt} />
-                        <SearchReposButton navigation={props.navigation} octokit={octokit} />
-                    </UserWrapper>
+                    {
+                        reposBtnTxt && issuesBtnTxt && starredBtnTxt && watchedBtnTxt ?
+                          <UserWrapper>
+                              <FullWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" />
+                              <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyRepos")} Text={reposBtnTxt} />
+                              <FullWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} />
+                              {/*<FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" />*/}
+                              <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyStar")} Text={starredBtnTxt} />
+                              <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyWatch")} Text={watchedBtnTxt} />
+                              <SearchReposButton navigation={props.navigation} octokit={octokit} />
+                          </UserWrapper>
+                          :
+                          <ActivityIndicator size='large' color='#457cb7' />
+                    }
                 </ScrollView>
             </UserWrapper>
         </Wrapper>
