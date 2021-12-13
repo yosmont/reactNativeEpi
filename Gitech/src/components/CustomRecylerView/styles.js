@@ -30,7 +30,7 @@ export const Pressable = styled.Pressable`
 	flexDirection: row;
   align-items: center;
   justify-content: space-around;
-	maxWidth: 90%;
+	width: 100%;
   flexWrap: wrap;
 	`;
 

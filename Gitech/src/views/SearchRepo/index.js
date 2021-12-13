@@ -60,9 +60,8 @@ const SearchRepo = (props) => {
 					});
 				});
         setRepoRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
-            console.log('test', item);
-          }
-				} text={`page : ${repopage}`} usfull={props.octokit, props.navigation} Items={Items} />);
+          
+        }} text={`page : ${userpage}`} usfull={{octokit: props.route.params.octokit, navigation: props.navigation}} Items={Items} />);
 			});
 		}
 	}
@@ -77,7 +76,6 @@ const SearchRepo = (props) => {
 				per_page: 25,
 				page: userpage,
 			}).then((result) => {
-        console.log(result);
 				let Items = [];
 				result.data.items.forEach(item => {
 					Items.push({
@@ -86,9 +84,8 @@ const SearchRepo = (props) => {
 					});
 				});
         setUserRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
-            // console.log('test', route);
-          }
-				} text={`page : ${userpage}`} usfull={props.octokit, props.navigation} Items={Items} />);
+          usf.navigation.navigate('UserView', { navigation: usf.navigation, octokit: usf.octokit, username: item.full_name });
+        }} text={`page : ${userpage}`} usfull={{octokit: props.route.params.octokit, navigation: props.navigation}} Items={Items} />);
 			});
 		}
 	}
