@@ -32,7 +32,7 @@ const UsersList = (props) => {
 			setMaxPage(GetNbOfPage(result.headers.link));
 		let Items = items;
 		result.data.forEach(item => {
-			tmp = {
+			let tmp = {
 				full_name: item.login,
 				avatar_url: item.avatar_url
 			}
@@ -84,6 +84,12 @@ const UsersList = (props) => {
 		});
 	}
 
+	function updateRepoWatch() {
+	}
+
+	function updateRepoStar() {
+	}
+
 	useEffect(() => {
 		switch (type) {
 			case "MyFollowing":
@@ -97,6 +103,12 @@ const UsersList = (props) => {
 				break;
 			case "Follower":
 				updateListFollower();
+				break;
+			case "RepoWatch":
+				updateRepoWatch();
+				break;
+			case "RepoStar":
+				updateRepoStar();
 				break;
 		}
     }, [])
@@ -122,6 +134,12 @@ const UsersList = (props) => {
 										break;
 									case "Follower":
 										updateListFollower();
+										break;
+									case "RepoWatch":
+										updateRepoWatch();
+										break;
+									case "RepoStar":
+										updateRepoStar();
 										break;
 								}
 							}
