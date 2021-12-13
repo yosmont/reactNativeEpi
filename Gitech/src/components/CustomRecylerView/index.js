@@ -9,7 +9,7 @@ class CustomRecylerView extends React.Component {
 			let output = []
 			props.Items.forEach(item => {
 				output.push(
-				<Pressable key={item.avatar_url} onPress={() => {props.onPressStart(props.usfull, item)}}>
+				<Pressable key={item.full_name} onPress={() => {props.onPressStart(props.usfull, item)}}>
 						{
 							(item.avatar_url !== undefined) ? <Image source={{ uri: item.avatar_url }} /> : ''
 							(item.usf !== undefined) ? <Text>{item.usf}</Text> : ''
