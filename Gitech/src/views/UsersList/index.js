@@ -41,9 +41,7 @@ const UsersList = (props) => {
 		});
 		setItems(Items);
 		setRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
-			//props.navigation.navigate('UserView', { navigation: props.navigation, octokit: octokit, username: item.full_name });
 			GoToUser(props.navigation, octokit, item.full_name);
-			console.log(item.full_name);
 		}
 		} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
 	}
