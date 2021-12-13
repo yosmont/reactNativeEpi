@@ -34,7 +34,20 @@ export const Pressable = styled.Pressable`
   flexWrap: wrap;
 	`;
 
-export const Text = styled.Text`
+  export const Button = styled.Button`
+  background-color: black;
+  border-width: 1px;
+	border-color: grey;
+	border-radius: 6px;
+	margin: 10px;
+	flexDirection: row;
+  align-items: center;
+  justify-content: space-around;
+	maxWidth: 90%;
+  flexWrap: wrap;
+	`;
+
+  export const Text = styled.Text`
 	flexShrink: 1
   margin-bottom: 5px;
   color: white;

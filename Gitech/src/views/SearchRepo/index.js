@@ -21,25 +21,35 @@ const presetStyles = StyleSheet.create({
 });
 
 const SearchRepo = (props) => {
-	const [research, setresearch] = React.useState("");
+	const [Research, setResearch] = React.useState("");
 	const [researchlanguage, setresearchlanguage] = React.useState("");
 	const [selectedValue, setSelectedValue] = React.useState("stars");
 	const [repoRecylerViewUpdate, setRepoRecylerViewUpdate] = React.useState(undefined);
 	const [userRecylerViewUpdate, setUserRecylerViewUpdate] = React.useState(undefined);
-	const [page, setPage] = React.useState(0);
+	const [repopage, setRepoPage] = React.useState(0);
+	const [userpage, setUserPage] = React.useState(0);
 	const RepoScrollRef = React.useRef();
 	const UserScrollRef = React.useRef();
 
+  React.useEffect(() => {
+    octokitSearchRepoRequest();
+  }, [repopage]);
+
+  React.useEffect(() => {
+    octokitSearchUserRequest();
+  }, [userpage]);
+
+
 	function octokitSearchRepoRequest() {
-		if (research != "") {
+		if (Research != "") {
       setRepoRecylerViewUpdate(undefined);
 			props.route.params.octokit.rest.search.repos({
-				q: research,
+				q: Research,
 				language: researchlanguage,
 				sort: selectedValue,
 				order: 'desc',
 				per_page: 25,
-				page: page,
+				page: repopage,
 			}).then((result) => {
 				let Items = [];
 				result.data.items.forEach(item => {
@@ -49,37 +59,36 @@ const SearchRepo = (props) => {
 						avatar_url: item.owner.avatar_url
 					});
 				});
-          setRepoRecylerViewUpdate(<CustomRecylerView onPress={(usf) => {
-            // console.log('test', route);
+        setRepoRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
+            console.log('test', item);
           }
-				} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
+				} text={`page : ${repopage}`} usfull={props.octokit, props.navigation} Items={Items} />);
 			});
 		}
 	}
 
-  function octokitSearchUsersRequest() {
-		if (research != "") {
+  function octokitSearchUserRequest() {
+		if (Research != "") {
       setUserRecylerViewUpdate(undefined);
 			props.route.params.octokit.rest.search.users({
-				q: research,
-				language: researchlanguage,
+				q: Research,
 				sort: selectedValue,
 				order: 'desc',
 				per_page: 25,
-				page: page,
+				page: userpage,
 			}).then((result) => {
+        console.log(result);
 				let Items = [];
 				result.data.items.forEach(item => {
 					Items.push({
-						full_name: item.name,
-						clone_url: item.clone_url,
-						avatar_url: item.owner.avatar_url
+						full_name: item.login,
+						avatar_url: item.avatar_url
 					});
 				});
-          setRepoRecylerViewUpdate(<CustomRecylerView onPress={(usf) => {
+        setUserRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
             // console.log('test', route);
           }
-				} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
+				} text={`page : ${userpage}`} usfull={props.octokit, props.navigation} Items={Items} />);
 			});
 		}
 	}
@@ -90,29 +99,40 @@ const SearchRepo = (props) => {
 			<Card>
 		 		<LargeText>GitHub Search</LargeText>
 				<View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-				<CustomTextInput styles={presetStyles} text='Search' placeholder='Search' onValueChange={setresearch}/>
+				<CustomTextInput styles={presetStyles} text='Search' placeholder='Search' onValueChange={setResearch}/>
 				<CustomTextInput styles={presetStyles} text='Language' placeholder='language' onValueChange={setresearchlanguage}/>
 				</View>
 		 		<CustomPicker text='Sort' Items={["stars", "forks", "help-wanted-issues", "updated"]} selectedValue={selectedValue} onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue) }/>
-		 		<LimitedWidthCustomButton width={300} onPress={ () => { setPage(0); octokitSearchRepoRequest(); }} Text="Search" />
+		 		<LimitedWidthCustomButton width={300} onPress={ () => {
+          setRepoPage(0);
+          octokitSearchRepoRequest();
+          setUserPage(0);
+          octokitSearchUserRequest();
+        }} Text="Search" />
 			</Card>
 
-			<ScrollCard
-				ref={RepoScrollRef}
-			>
+			<ScrollCard ref={RepoScrollRef} >
 				{
-					(repoRecylerViewUpdate !== undefined) ?
-            repoRecylerViewUpdate
-					:
+					(repoRecylerViewUpdate !== undefined) ? repoRecylerViewUpdate :
           <ActivityIndicator size='large' color='#457cb7' />
 				}
 		 		<LimitedWidthCustomButton width={300} onPress={ () => {
           RepoScrollRef.current?.scrollTo({y: 0, animated: true});
-          setPage(page + 1);
-          octokitSearchRepoRequest();
+          setRepoPage(repopage + 1);
         }} Text="Next Page" />
-
 			</ScrollCard>
+
+			<ScrollCard ref={UserScrollRef} >
+				{
+					(userRecylerViewUpdate !== undefined) ? userRecylerViewUpdate :
+          <ActivityIndicator size='large' color='#457cb7' />
+				}
+		 		<LimitedWidthCustomButton width={300} onPress={ () => {
+          UserScrollRef.current?.scrollTo({y: 0, animated: true});
+          setUserPage(userpage + 1);
+        }} Text="Next Page" />
+			</ScrollCard>
+
 		</Wrapper>
 	)
 };
