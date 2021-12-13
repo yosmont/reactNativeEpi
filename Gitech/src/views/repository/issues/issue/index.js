@@ -97,6 +97,7 @@ const Issue = (props) => {
                 changeCounter,
                 setChangeCounter,
                 setNewComment,
+                state === 'open'
               )}>
               <Text style={stylesActive(newComment !== "" && state === 'open').text}>Comment</Text>
             </Pressable>
@@ -123,8 +124,8 @@ const redirectToUser = (navigation, octokit, user) => {
   navigation.push('UserView', { navigation: navigation, octokit: octokit, username: user })
 }
 
-const postComment = (octokit, repo, id, body, changeCounter, setChangeCounter, setNewComment) => {
-  if (body !== "") {
+const postComment = (octokit, repo, id, body, changeCounter, setChangeCounter, setNewComment, open) => {
+  if (body !== "" && open) {
     octokit.rest.issues.createComment({
       owner: repo.owner.login,
       repo: repo.name,
