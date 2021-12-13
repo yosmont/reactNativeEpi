@@ -11,6 +11,7 @@ function GoToReposList(navigation, octokit, type, username) {
 const ReposListButton = (props) => {
     var buttonText = ((props.reposType === "") ? "" : props.reposType + " ") + ((typeof props.reposNb === 'undefined') ? "NaN " : props.reposNb + " ") + "repositories"
     var [listType, setListType] = React.useState("");
+
     useEffect(() => {
         if (!props.username) {
             switch (props.reposType) {
@@ -38,6 +39,7 @@ const ReposListButton = (props) => {
             }
         }
     }, [])
+
     return (
         <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, props.octokit, listType, props.username)} /*onPress={() => props.navigation.push('Repository', { navigation: props.navigation, octokit: props.octokit, user: props.user })}*/ Text={buttonText} />
     );

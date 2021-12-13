@@ -12,7 +12,11 @@ function GetNbOfPage(linkStr) {
     return parseInt(linkStr.slice(linkStr.lastIndexOf("&page=") + 6, -13));
 }
 
-const ReposList = (props) => {
+function GoToUser(navigation, octokit, username) {
+	navigation.navigate('UserView', { navigation: navigation, octokit: octokit, username: username });
+}
+
+const UsersList = (props) => {
 	const perPage = 25
 	const octokit = props.route.params.octokit;
 	const type = props.route.params.type;
@@ -29,22 +33,23 @@ const ReposList = (props) => {
 		let Items = items;
 		result.data.forEach(item => {
 			tmp = {
-				full_name: item.full_name,
-				clone_url: item.clone_url,
-				avatar_url: item.owner.avatar_url
+				full_name: item.login,
+				avatar_url: item.avatar_url
 			}
 			if (Items.find(elem => elem.full_name == tmp.full_name) === undefined)
 				Items.push(tmp);
 		});
 		setItems(Items);
 		setRecylerViewUpdate(<CustomRecylerView onPress={(usf, item) => {
-			// console.log('test', route);
+			//props.navigation.navigate('UserView', { navigation: props.navigation, octokit: octokit, username: item.full_name });
+			//GoToUser(props.navigation, octokit, item.full_name);
+			console.log(item.full_name);
 		}
 		} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
 	}
 
-	function updateListMyRepos() {
-		octokit.rest.repos.listForAuthenticatedUser({
+	function updateListMyFollowing() {
+		octokit.rest.users.listFollowedByAuthenticatedUser({
 			per_page: perPage,
 			page: page,
 		}).then((result) => {
@@ -52,8 +57,8 @@ const ReposList = (props) => {
 		});
 	}
 
-	function updateListMyStar() {
-		octokit.rest.activity.listReposStarredByAuthenticatedUser({
+	function updateListMyFollower() {
+		octokit.rest.users.listFollowersForAuthenticatedUser({
 			per_page: perPage,
 			page: page,
 		}).then((result) => {
@@ -61,17 +66,8 @@ const ReposList = (props) => {
 		});
 	}
 
-	function updateListMyWatch() {
-		octokit.rest.activity.listWatchedReposForAuthenticatedUser({
-			per_page: perPage,
-			page: page,
-		}).then((result) => {
-			updateList(result);
-		});
-	}
-
-	function updateListRepos() {
-		octokit.rest.repos.listForUser({
+	function updateListFollowing() {
+		octokit.rest.users.listFollowingForUser({
 			per_page: perPage,
 			page: page,
 			username: username,
@@ -80,18 +76,8 @@ const ReposList = (props) => {
 		});
 	}
 
-	function updateListStar() {
-		octokit.rest.activity.listReposStarredByUser({
-			per_page: perPage,
-			page: page,
-			username: username,
-		}).then((result) => {
-			updateList(result);
-		});
-	}
-
-	function updateListWatch() {
-		octokit.rest.activity.listReposWatchedByUser({
+	function updateListFollower() {
+		octokit.rest.users.listFollowersForUser({
 			per_page: perPage,
 			page: page,
 			username: username,
@@ -102,23 +88,17 @@ const ReposList = (props) => {
 
 	useEffect(() => {
 		switch (type) {
-			case "MyRepos":
-				updateListMyRepos();
+			case "MyFollowing":
+				updateListMyFollowing();
 				break;
-			case "MyStar":
-				updateListMyStar();
+			case "MyFollower":
+				updateListMyFollower();
 				break;
-			case "MyWatch":
-				updateListMyWatch();
+			case "Following":
+				updateListFollowing();
 				break;
-			case "Repos":
-				updateListRepos();
-				break;
-			case "Star":
-				updateListStar();
-				break;
-			case "Watch":
-				updateListWatch();
+			case "Follower":
+				updateListFollower();
 				break;
 		}
     }, [])
@@ -133,23 +113,17 @@ const ReposList = (props) => {
 							setPage(page + 1);
 							if (maxPage == -1 || page <= maxPage) {
 								switch (type) {
-									case "MyRepos":
-										updateListMyRepos();
+									case "MyFollowing":
+										updateListMyFollowing();
 										break;
-									case "MyStar":
-										updateListMyStar();
+									case "MyFollower":
+										updateListMyFollower();
 										break;
-									case "MyWatch":
-										updateListMyWatch();
+									case "Following":
+										updateListFollowing();
 										break;
-									case "Repos":
-										updateListRepos();
-										break;
-									case "Star":
-										updateListStar();
-										break;
-									case "Watch":
-										updateListWatch();
+									case "Follower":
+										updateListFollower();
 										break;
 								}
 							}
@@ -169,4 +143,4 @@ const ReposList = (props) => {
     );
 }
 
-export default ReposList;
+export default UsersList;
