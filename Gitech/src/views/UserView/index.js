@@ -66,11 +66,11 @@ const UserView = (props) => {
             <UserWrapper>
               {user && <Image source={{ uri: user.avatar_url }} />}
               <Text>{username ? username : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>
-              <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" user={user} octokit={octokit} />
-              <ReposListButton navigation={props.navigation} reposNb={starredCount} reposType="Star" octokit={octokit} />
-              <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} />
-              <UsersListButton navigation={props.navigation} userNb={user.following} userType="Following" />
-              <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Followed by" />
+              <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" user={user} octokit={octokit} username={username} />
+              <ReposListButton navigation={props.navigation} reposNb={starredCount} reposType="Star" octokit={octokit} username={username} />
+              <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} username={username} />
+              <UsersListButton navigation={props.navigation} userNb={user.following} userType="Following" username={username} />
+              <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Followed by" username={username} />
               {!username ?
                   <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
                   :

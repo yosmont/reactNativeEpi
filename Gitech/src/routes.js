@@ -13,6 +13,7 @@ import NewIssue from "@views/repository/issues/new";
 import PullRequests from "@views/repository/pullRequests";
 import Home from '@views/Home';
 import MyIssues from '@views/MyIssues';
+import ReposList from "@views/ReposList";
 
 const Stack = createNativeStackNavigator();
 
@@ -153,6 +154,16 @@ const Routes = () => {
           <Screen
               component={MyIssues}
               name="MyIssues"
+              options={{
+                  headerStyle: {
+                      backgroundColor: '#2b2b2b'
+                  },
+                  headerTintColor: '#fff'
+              }}
+          />
+          <Screen
+              component={ReposList}
+              name="ReposList"
               options={{
                   headerStyle: {
                       backgroundColor: '#2b2b2b'

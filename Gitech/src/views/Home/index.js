@@ -25,6 +25,10 @@ function GoToMyIssues(navigation, octokit) {
     navigation.navigate('MyIssues', { navigation: navigation, octokit: octokit });
 }
 
+function GoToReposList(navigation, octokit, type) {
+    navigation.navigate('ReposList', { navigation: navigation, octokit: octokit, type: type });
+}
+
 function NotImplemented(navigation, octokit) {
     alert("not implemented");
 }
@@ -67,11 +71,11 @@ const Home = (props) => {
                 >
                     <UserWrapper>
                         <FullWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" />
-                        <FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} />
+                        <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyRepos")} Text={reposBtnTxt} />
                         <FullWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} />
                         {/*<FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" />*/}
-                        <FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} />
-                        <FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} />
+                        <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyStar")} Text={starredBtnTxt} />
+                        <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyWatch")} Text={watchedBtnTxt} />
                         <SearchReposButton navigation={props.navigation} octokit={octokit} />
                     </UserWrapper>
                 </ScrollView>
