@@ -27,7 +27,6 @@ const UserView = (props) => {
     const [avatar, onAvatarLoaded] = React.useState(undefined);
 
     useEffect(() => {
-        console.log("hello world");
         if (username) {
           octokit.rest.users.getByUsername({ username: username }).then((value) => {
               onUserLoaded(value.data);
