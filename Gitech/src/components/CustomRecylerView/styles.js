@@ -6,10 +6,10 @@ import styled from 'styled-components/native';
 // `
 
 export const Wrapper = styled.View`
-	margin-top: 0px;
   flex: 1;
   color: white;
   background-color: rgba(0, 0, 0, 0);
+  width: 300px;
   justify-content: flex-start;
 `;
 
@@ -27,11 +27,11 @@ export const Pressable = styled.Pressable`
 	border-color: grey;
 	border-radius: 6px;
 	margin: 10px;
-	flexDirection: row;
+	flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-	width: 100%;
-  flexWrap: wrap;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  flex-shrink: 1;
 	`;
 
   export const Button = styled.Button`
@@ -40,17 +40,16 @@ export const Pressable = styled.Pressable`
 	border-color: grey;
 	border-radius: 6px;
 	margin: 10px;
-	flexDirection: row;
+	flex-direction: row;
   align-items: center;
   justify-content: space-around;
-	maxWidth: 90%;
-  flexWrap: wrap;
+	max-width: 90%;
+  flex-wrap: wrap;
 	`;
 
   export const Text = styled.Text`
-	flexShrink: 1
+	flex-shrink: 1;
   margin-bottom: 5px;
   color: white;
-	flex: 1;
-	flexWrap: wrap;
+	flex-wrap: wrap;
 `
