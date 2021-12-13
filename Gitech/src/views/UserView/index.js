@@ -7,6 +7,7 @@ import ReposListButton from "@components/UserView/ReposListButton";
 import UsersListButton from "@components/UserView/UsersListButton";
 import {ActivityIndicator, RefreshControl, ScrollView} from "react-native";
 import FollowButton from "@components/UserView/FollowButton";
+import FullWidthCustomButton from '../../components/FullWidthCustomButton';
 
 function GetNbOfPage(linkStr) {
 
@@ -69,8 +70,8 @@ const UserView = (props) => {
               <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" user={user} octokit={octokit} username={username} />
               <ReposListButton navigation={props.navigation} reposNb={starredCount} reposType="Star" octokit={octokit} username={username} />
               <ReposListButton navigation={props.navigation} reposNb={watchedCount} reposType="Watch" octokit={octokit} username={username} />
-              <UsersListButton navigation={props.navigation} userNb={user.following} userType="Following" username={username} />
-              <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Followed by" username={username} />
+              <UsersListButton navigation={props.navigation} userNb={user.following} userType="Following" octokit={octokit} username={username} />
+              <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Followed by" octokit={octokit} username={username} />
               {!username ?
                   <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
                   :
