@@ -20,15 +20,17 @@ function GetNbOfPage(linkStr) {
 const UserView = (props) => {
     const octokit = props.route.params.octokit;
     const username = props.route.params.username;
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [refreshing, setRefreshing] = React.useState(true);
     const [user, onUserLoaded] = React.useState(props.route.params.user);
     const [starredCount, onStarredLoaded] = React.useState(undefined);
     const [watchedCount, onWatchedLoaded] = React.useState(undefined);
+    const [avatar, onAvatarLoaded] = React.useState(undefined);
 
     useEffect( () => {
         if (username) {
           octokit.rest.users.getByUsername({ username: username }).then((value) => {
-            onUserLoaded(value.data);
+              onUserLoaded(value.data);
+              onAvatarLoaded({ uri: value.data.avatar_url });
           });
           octokit.rest.activity.listReposWatchedByUser({ username: username, per_page: 1 }).then((value) => {
             onWatchedLoaded(GetNbOfPage(value.headers.link));
@@ -41,6 +43,7 @@ const UserView = (props) => {
 
     useEffect(() => {
       if (!username) {
+        onAvatarLoaded({ uri: user.avatar_url });
         octokit.rest.activity.listReposStarredByAuthenticatedUser({per_page: 1}).then((value) => {
           onStarredLoaded(GetNbOfPage(value.headers.link));
         });
@@ -63,9 +66,9 @@ const UserView = (props) => {
           }
         >
           {
-            user && (starredCount !== undefined) && (watchedCount !== undefined) ?
+            user && (starredCount !== undefined) && (watchedCount !== undefined) && avatar ?
             <UserWrapper>
-              {user && <Image source={{ uri: user.avatar_url }} />}
+              <Image source={avatar} />
               <Text>{username ? username : user.login  !== 'Loading' ? 'Hello ' + user.login + '!' : ''}</Text>
               <ReposListButton navigation={props.navigation} reposNb={user.public_repos} reposType="" user={user} octokit={octokit} username={username} />
               <ReposListButton navigation={props.navigation} reposNb={starredCount} reposType="Star" octokit={octokit} username={username} />

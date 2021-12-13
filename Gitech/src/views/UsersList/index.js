@@ -13,7 +13,7 @@ function GetNbOfPage(linkStr) {
 }
 
 function GoToUser(navigation, octokit, username) {
-	navigation.navigate('UserView', { navigation: navigation, octokit: octokit, username: username });
+	navigation.navigate('UserView', { navigation: navigation, octokit: octokit, username: username, user: undefined });
 }
 
 const UsersList = (props) => {
@@ -40,9 +40,9 @@ const UsersList = (props) => {
 				Items.push(tmp);
 		});
 		setItems(Items);
-		setRecylerViewUpdate(<CustomRecylerView onPress={(usf, item) => {
+		setRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
 			//props.navigation.navigate('UserView', { navigation: props.navigation, octokit: octokit, username: item.full_name });
-			//GoToUser(props.navigation, octokit, item.full_name);
+			GoToUser(props.navigation, octokit, item.full_name);
 			console.log(item.full_name);
 		}
 		} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
