@@ -87,9 +87,6 @@ const Home = (props) => {
                         <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyStar")} Text={starredBtnTxt} />
                         <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyWatch")} Text={watchedBtnTxt} />
                         <SearchReposButton navigation={props.navigation} octokit={octokit} />
-
-                        <FullWidthCustomButton onPress={() => TestUserView(props.navigation, octokit, "Thorinair")} Text="Open a User" />
-                        <FullWidthCustomButton onPress={() => TestReposView(props.navigation, octokit)} Text="Open a Repos" />
                     </UserWrapper>
                 </ScrollView>
             </UserWrapper>

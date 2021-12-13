@@ -12,6 +12,16 @@ function GetNbOfPage(linkStr) {
     return parseInt(linkStr.slice(linkStr.lastIndexOf("&page=") + 6, -13));
 }
 
+function GoToRepo(navigation, octokit, reposName) {
+	reposName = reposName.split('/');
+	octokit.rest.repos.get({
+		owner: reposName[0],
+		repo: reposName[1],
+	}).then((value) => {
+		navigation.navigate('Repository', { navigation: navigation, octokit: octokit, repo: value.data });
+	});
+}
+
 const ReposList = (props) => {
 	const perPage = 25
 	const octokit = props.route.params.octokit;
@@ -37,8 +47,9 @@ const ReposList = (props) => {
 				Items.push(tmp);
 		});
 		setItems(Items);
-		setRecylerViewUpdate(<CustomRecylerView onPress={(usf, item) => {
-			// console.log('test', route);
+		setRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
+			console.log(item.full_name);
+			GoToRepo(props.navigation, octokit, item.full_name);
 		}
 		} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
 	}

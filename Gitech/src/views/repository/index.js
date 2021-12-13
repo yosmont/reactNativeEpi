@@ -13,20 +13,20 @@ export const repoRights = {
 }
 
 const Repository = (props) => {
-  const [repo, setRepo] = React.useState(undefined);
+  const [repo, setRepo] = React.useState(props.route.params.repo);
   const [issues, setIssues] = React.useState([]);
   const [pullRequests, setPullRequests] = React.useState([]);
   const [starred, setStarred] = React.useState([]);
   const [watchers, setWatchers] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     props.route.params.octokit.rest.repos.listForAuthenticatedUser()
       .then((value) => {
         console.log(value.data);
         setRepo(value.data.count !== 0 ? value.data[15] : undefined);
       });
-  }, [])
+  }, [])*/
 
   useEffect(() => {
     if (repo) {
