@@ -24,7 +24,6 @@ const PullRequest = (props) => {
   const [newComment, setNewComment] = React.useState(undefined);
   const [state, setState] = React.useState(pullRequest.state);
 
-  console.log(props.route.params);
   useEffect(() => {
     octokit.rest.pulls.listReviewComments({
       owner: props.route.params.repo.owner.login,

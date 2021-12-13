@@ -18,7 +18,6 @@ const PullRequests = (props) => {
       repo: props.route.params.repo.name
     })
       .then((value) => {
-        console.log(value.data);
         setBranches(value.data);
         setNewPRBase(value.data[0].name);
         setNewPRCompare(value.data[0].name);
@@ -147,10 +146,7 @@ const getPullRequest = (navigation, octokit, repo, pr) => {
 }
 
 const createPullRequest = (octokit, repo, title, body, base, compare, setPR, setVisible) => {
-  console.log(base);
-  console.log(compare);
   if (title !== "" && base !== compare) {
-    console.log('Here');
     octokit.rest.pulls.create(body !== "" ?
       {
         owner: repo.owner.login,
@@ -165,8 +161,7 @@ const createPullRequest = (octokit, repo, title, body, base, compare, setPR, set
         title: title,
         head: compare,
         base: base
-      }).then((response) => {
-        console.log(response);
+      }).then(() => {
         setPR(undefined);
         setVisible(false);
     })

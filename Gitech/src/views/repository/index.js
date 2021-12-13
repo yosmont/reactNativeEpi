@@ -28,23 +28,18 @@ const Repository = (props) => {
         })
       props.route.params.octokit.rest.pulls.list({owner: repo.owner.login, repo: repo.name})
         .then((value) => {
-          console.log(value.data);
           setPullRequests(value.data);
         })
       props.route.params.octokit.rest.activity.listStargazersForRepo({owner: repo.owner.login, repo: repo.name})
         .then((value) => {
-          console.log(value.data);
           setStarred(value.data);
         })
       props.route.params.octokit.rest.activity.listWatchersForRepo({owner: repo.owner.login, repo: repo.name})
         .then((value) => {
-          console.log(value.data);
           setWatchers(value.data);
         })
     }
   }, [repo])
-
-  console.log(repo);
 
   return (
     <Wrapper>
