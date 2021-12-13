@@ -4,6 +4,7 @@ import {ActivityIndicator, RefreshControl, ScrollView} from "react-native";
 import { Wrapper, UserWrapper, Image, Text, LargeText, Card } from './styles';
 
 import LimitedWidthCustomButton from "@components/LimitedWidthCustomButton";
+import FullWidthCustomButton from "@components/FullWidthCustomButton";
 import SearchReposButton from "@components/UserView/SearchReposButton";
 
 function GetNbOfPage(linkStr) {
@@ -54,25 +55,27 @@ const Home = (props) => {
 
     return (
         <Wrapper>
-            <ScrollView
-              contentContainerStyle={styles.scrollView}
-              refreshControl={
-                  <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={() => setRefreshing(true)}
-                  />
-              }
-            >
-                <Card>
-                    <LimitedWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" width={300} />
-                    <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} width={300} />
-                    <LimitedWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} width={300} />
-                    {/*<LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" width={300} />*/}
-                    <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} width={300} />
-                    <LimitedWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} width={300} />
-                    <SearchReposButton navigation={props.navigation} octokit={octokit} />
-                </Card>
-            </ScrollView>
+            <UserWrapper>
+                <ScrollView
+                  contentContainerStyle={styles.scrollView}
+                  refreshControl={
+                      <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={() => setRefreshing(true)}
+                      />
+                  }
+                >
+                    <UserWrapper>
+                        <FullWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" />
+                        <FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={reposBtnTxt} />
+                        <FullWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} />
+                        {/*<FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" />*/}
+                        <FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={starredBtnTxt} />
+                        <FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text={watchedBtnTxt} />
+                        <SearchReposButton navigation={props.navigation} octokit={octokit} />
+                    </UserWrapper>
+                </ScrollView>
+            </UserWrapper>
         </Wrapper>
     );
 }
