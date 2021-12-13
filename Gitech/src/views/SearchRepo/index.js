@@ -20,6 +20,16 @@ const presetStyles = StyleSheet.create({
   }
 });
 
+function GoToRepo(navigation, octokit, reposName) {
+	reposName = reposName.split('/');
+	octokit.rest.repos.get({
+		owner: reposName[0],
+		repo: reposName[1],
+	}).then((value) => {
+		navigation.navigate('Repository', { navigation: navigation, octokit: octokit, repo: value.data });
+	});
+}
+
 const SearchRepo = (props) => {
 	const [Research, setResearch] = React.useState("");
 	const [researchlanguage, setresearchlanguage] = React.useState("");
@@ -54,13 +64,13 @@ const SearchRepo = (props) => {
 				let Items = [];
 				result.data.items.forEach(item => {
 					Items.push({
-						full_name: item.name,
+						full_name: item.full_name,
 						clone_url: item.clone_url,
 						avatar_url: item.owner.avatar_url
 					});
 				});
         setRepoRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
-          
+			GoToRepo(props.navigation, props.route.params.octokit, item.full_name);
         }} text={`page : ${userpage}`} usfull={{octokit: props.route.params.octokit, navigation: props.navigation}} Items={Items} />);
 			});
 		}

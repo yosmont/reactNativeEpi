@@ -48,7 +48,6 @@ const ReposList = (props) => {
 		});
 		setItems(Items);
 		setRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
-			console.log(item.full_name);
 			GoToRepo(props.navigation, octokit, item.full_name);
 		}
 		} text={`page : ${page}`} usfull={props.octokit, props.navigation} Items={Items} />);
