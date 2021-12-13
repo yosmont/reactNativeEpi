@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ScrollView} from "react-native";
+import {View, ScrollView} from "react-native";
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import {
   stylesStatus,
@@ -18,6 +18,7 @@ const PullRequest = (props) => {
   const pullRequest = props.route.params.pullRequest;
   const [comments, setComments] = React.useState([]);
   const [state, setState] = React.useState(pullRequest.state);
+  const [date, setDate] = React.useState(undefined);
 
   useEffect(() => {
     octokit.rest.pulls.listReviewComments({
@@ -27,6 +28,14 @@ const PullRequest = (props) => {
     }).then((value) => {
       setComments(value.data);
     })
+    if (!date) {
+      const value = new Date(pullRequest.created_at);
+      const newDate = new Date(value.getTime() + value.getTimezoneOffset()*60*1000);
+      var offset = value.getTimezoneOffset() / 60;
+      var hours = value.getHours();
+      newDate.setHours(hours - offset);
+      setDate(newDate.toString());
+    }
   }, [])
 
   return (
@@ -49,7 +58,7 @@ const PullRequest = (props) => {
             onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, pullRequest.user.login)}
           />
         </Flex>
-        <WhiteText>Created : {pullRequest.created_at + '\n'}</WhiteText>
+        <WhiteText>Created : {date.toLocaleString() + '\n'}</WhiteText>
         <WhiteText>Base: {pullRequest.base.ref}</WhiteText>
         <WhiteText>Compare: {pullRequest.head.ref}</WhiteText>
         {

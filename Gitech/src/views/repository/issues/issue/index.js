@@ -23,6 +23,7 @@ const Issue = (props) => {
   const [changeCounter, setChangeCounter] = React.useState(0);
   const [newComment, setNewComment] = React.useState(undefined);
   const [state, setState] = React.useState(issue.state);
+  const [date, setDate] = React.useState(undefined);
 
   console.log(props.route.params);
   useEffect(() => {
@@ -34,6 +35,14 @@ const Issue = (props) => {
       console.log(value.data);
       setComments(value.data);
     })
+    if (!date) {
+      const value = new Date(issue.created_at);
+      const newDate = new Date(value.getTime() + value.getTimezoneOffset()*60*1000);
+      var offset = value.getTimezoneOffset() / 60;
+      var hours = value.getHours();
+      newDate.setHours(hours - offset);
+      setDate(newDate.toString());
+    }
   }, [changeCounter])
 
   console.log(props.route.params.issue);
@@ -58,7 +67,7 @@ const Issue = (props) => {
             onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, issue.user.login)}
           />
         </Flex>
-        <WhiteText>Created : {issue.created_at}</WhiteText>
+        <WhiteText>Created : {date?.toLocaleString() + '\n'}</WhiteText>
         {
           comments.map((comment) => (
             <Card key={comment.url}>
