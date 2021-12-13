@@ -3,9 +3,9 @@ import FullWidthCustomButton from "@components/FullWidthCustomButton";
 
 function GoToUserList(navigation, octokit, type, username) {
     if (!username)
-        navigation.navigate('UsersList', { navigation: navigation, octokit: octokit, type: type });
+        navigation.push('UsersList', { navigation: navigation, octokit: octokit, type: type });
     else
-        navigation.navigate('UsersList', { navigation: navigation, octokit: octokit, type: type, username: username });
+        navigation.push('UsersList', { navigation: navigation, octokit: octokit, type: type, username: username });
 }
 
 const UsersListButton = (props) => {

@@ -39,7 +39,7 @@ const getAuth = (navigation, auth) => {
   const octokit = new Octokit({
     auth: auth ? auth : GITHUB
   });
-  navigation.navigate('Home', { navigation: navigation, octokit: octokit });
+  navigation.push('Home', { navigation: navigation, octokit: octokit });
 }
 
 export default Login;

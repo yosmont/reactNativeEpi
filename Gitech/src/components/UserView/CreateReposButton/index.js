@@ -3,7 +3,7 @@ import FullWidthCustomButton from "@components/FullWidthCustomButton";
 
 const CreateReposButton = (props) => {
     return (
-        <FullWidthCustomButton onPress={() => props.navigation.navigate('CreateRepos', { octokitAuth: props.octokitAuth })} Text="Create a new repos" />
+        <FullWidthCustomButton onPress={() => props.navigation.push('CreateRepos', { octokitAuth: props.octokitAuth })} Text="Create a new repos" />
     );
 }
 

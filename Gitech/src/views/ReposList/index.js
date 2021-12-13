@@ -18,7 +18,7 @@ function GoToRepo(navigation, octokit, reposName) {
 		owner: reposName[0],
 		repo: reposName[1],
 	}).then((value) => {
-		navigation.navigate('Repository', { navigation: navigation, octokit: octokit, repo: value.data });
+		navigation.push('Repository', { navigation: navigation, octokit: octokit, repo: value.data });
 	});
 }
 

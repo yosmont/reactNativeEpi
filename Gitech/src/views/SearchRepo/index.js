@@ -26,7 +26,7 @@ function GoToRepo(navigation, octokit, reposName) {
 		owner: reposName[0],
 		repo: reposName[1],
 	}).then((value) => {
-		navigation.navigate('Repository', { navigation: navigation, octokit: octokit, repo: value.data });
+		navigation.push('Repository', { navigation: navigation, octokit: octokit, repo: value.data });
 	});
 }
 
@@ -94,7 +94,7 @@ const SearchRepo = (props) => {
 					});
 				});
         setUserRecylerViewUpdate(<CustomRecylerView onPressStart={(usf, item) => {
-          usf.navigation.navigate('UserView', { navigation: usf.navigation, octokit: usf.octokit, username: item.full_name });
+          usf.navigation.push('UserView', { navigation: usf.navigation, octokit: usf.octokit, username: item.full_name });
         }} text={`page : ${userpage}`} usfull={{octokit: props.route.params.octokit, navigation: props.navigation}} Items={Items} />);
 			});
 		}

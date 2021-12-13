@@ -163,7 +163,7 @@ const getCode = (navigation, octokit, repo, branches, path) => {
 }
 
 function GoToUserList(navigation, octokit, repo, type) {
-  navigation.navigate('UsersList', { navigation: navigation, octokit: octokit, type: type, username: repo.owner.login, repoName: repo.name });
+  navigation.push('UsersList', { navigation: navigation, octokit: octokit, type: type, username: repo.owner.login, repoName: repo.name });
 }
 
 const deleteRepo = (navigation, octokit, repo) => {
