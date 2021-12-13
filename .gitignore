@@ -2,4 +2,5 @@ Gitech/.env
 Gitech/mainTest.txt
 *.idea*
 *.vs*
-Gitech/yarn.lock
+*yarn.lock
+.yarn*
