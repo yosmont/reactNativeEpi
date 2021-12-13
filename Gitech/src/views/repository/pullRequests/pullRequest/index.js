@@ -31,12 +31,9 @@ const PullRequest = (props) => {
       repo: props.route.params.repo.name,
       pull_number: pullRequest.number
     }).then((value) => {
-      console.log(value.data);
       setComments(value.data);
     })
   }, [changeCounter])
-
-  console.log(props.route.params.issue);
 
   return (
     <Wrapper>
@@ -59,6 +56,8 @@ const PullRequest = (props) => {
           />
         </Flex>
         <WhiteText>Created : {pullRequest.created_at}</WhiteText>
+        <WhiteText>Base: {pullRequest.base.ref}</WhiteText>
+        <WhiteText>Compare: {pullRequest.head.ref}</WhiteText>
         {
           comments.map((comment) => (
             <Card>
