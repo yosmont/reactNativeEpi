@@ -20,14 +20,6 @@ const Repository = (props) => {
   const [watchers, setWatchers] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  /*useEffect(() => {
-    props.route.params.octokit.rest.repos.listForAuthenticatedUser()
-      .then((value) => {
-        console.log(value.data);
-        setRepo(value.data.count !== 0 ? value.data[15] : undefined);
-      });
-  }, [])*/
-
   useEffect(() => {
     if (repo) {
       props.route.params.octokit.rest.issues.listForRepo({owner: repo.owner.login, repo: repo.name, state: 'all'})
@@ -51,6 +43,8 @@ const Repository = (props) => {
         })
     }
   }, [repo])
+
+  console.log(repo);
 
   return (
     <Wrapper>
@@ -113,11 +107,15 @@ const Repository = (props) => {
                 <Feather name="eye" size={15} color="white" />
               </ButtonWithIcon>
 
-              <ButtonWithIcon
+              {
+                repo.permissions.admin &&
+                <ButtonWithIcon
                 Text={'Delete the repository'}
                 onPress={() => setModalVisible(!modalVisible)}>
-                <MaterialIcons name="delete" size={15} color="white" />
+                <MaterialIcons name="delete" size={15} color="white"/>
               </ButtonWithIcon>
+              }
+
               <Modal
                 animationType="fade"
                 transparent={true}
