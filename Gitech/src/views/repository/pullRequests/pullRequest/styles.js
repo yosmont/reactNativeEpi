@@ -43,6 +43,7 @@ export const NewComment = styled.View`
 
 export const Flex = styled.View`
   flex-direction: row;
+  margin-bottom: 10px;
 `;
 
 export const Padding = styled.View`

@@ -1,14 +1,11 @@
 import React, {useEffect} from 'react';
-import {Pressable, ScrollView, Text, TextInput, View} from "react-native";
+import {ScrollView} from "react-native";
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import {
-  styles,
-  stylesActive,
   stylesStatus,
   Card,
   CardHeader,
   LargeText,
-  NewComment,
   Padding,
   WhiteText,
   Wrapper,
@@ -20,8 +17,6 @@ const PullRequest = (props) => {
   const octokit = props.route.params.octokit;
   const pullRequest = props.route.params.pullRequest;
   const [comments, setComments] = React.useState([]);
-  const [changeCounter, setChangeCounter] = React.useState(0);
-  const [newComment, setNewComment] = React.useState(undefined);
   const [state, setState] = React.useState(pullRequest.state);
 
   useEffect(() => {
@@ -32,7 +27,7 @@ const PullRequest = (props) => {
     }).then((value) => {
       setComments(value.data);
     })
-  }, [changeCounter])
+  }, [])
 
   return (
     <Wrapper>
@@ -54,7 +49,7 @@ const PullRequest = (props) => {
             onPress={() => redirectToUser(props.route.params.navigation, props.route.params.octokit, pullRequest.user.login)}
           />
         </Flex>
-        <WhiteText>Created : {pullRequest.created_at}</WhiteText>
+        <WhiteText>Created : {pullRequest.created_at + '\n'}</WhiteText>
         <WhiteText>Base: {pullRequest.base.ref}</WhiteText>
         <WhiteText>Compare: {pullRequest.head.ref}</WhiteText>
         {
@@ -69,46 +64,6 @@ const PullRequest = (props) => {
             </Card>
           ))
         }
-
-        <NewComment>
-          <TextInput
-            value={newComment}
-            placeholder={'Leave a comment'}
-            placeholderTextColor={'grey'}
-            multiline={true}
-            numberOfLines={4}
-            style={stylesActive(newComment !== "" && state === 'open').textInput}
-            onChangeText={(value) => setNewComment(value)}
-          />
-          <Flex>
-            <Pressable
-              style={stylesActive(newComment !== "" && state === 'open').button}
-              onPress={() => postComment(
-                octokit,
-                props.route.params.repo,
-                pullRequest.number,
-                newComment,
-                changeCounter,
-                setChangeCounter,
-                setNewComment,
-                state === 'open'
-              )}>
-              <Text style={stylesActive(newComment !== "" && state === 'open').text}>Comment</Text>
-            </Pressable>
-            <Pressable
-              style={styles.close}
-              onPress={() => togglePRState(
-                octokit,
-                props.route.params.repo,
-                pullRequest.number,
-                state,
-                setState
-              )}>
-              {state === 'open' && <MaterialCommunityIcons name="close" size={15} color='red'/>}
-              <WhiteText>  {state === 'open' ? 'Close pull request' : 'Reopen pull request'}</WhiteText>
-            </Pressable>
-          </Flex>
-        </NewComment>
       </ScrollView>
     </Wrapper>
   )
