@@ -65,9 +65,7 @@ function CreateReposWithData(data, octokit) {
 }
 
 const CreateRepos = (props) => {
-    const octokit = new Octokit({
-        auth: props.route.params.octokitAuth
-    });
+    const octokit = props.route.params.octokit;
     let data = {};
     return (
         <Wrapper>

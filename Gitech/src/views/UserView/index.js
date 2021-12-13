@@ -76,7 +76,7 @@ const UserView = (props) => {
               <UsersListButton navigation={props.navigation} userNb={user.following} userType="Following" octokit={octokit} username={username} />
               <UsersListButton navigation={props.navigation} userNb={user.followers} userType="Followed by" octokit={octokit} username={username} />
               {!username ?
-                  <CreateReposButton navigation={props.navigation} octokitAuth={props.route.params.octokitAuth} />
+                  <CreateReposButton navigation={props.navigation} octokit={octokit} />
                   :
                   <FollowButton octokit={octokit} username={username} />
               }
