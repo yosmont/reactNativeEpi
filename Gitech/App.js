@@ -2,10 +2,9 @@ import React from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import Routes from "@src/routes";
 
-// import Cat from './src/components/Cat/Cat'
-// import CustomTextInput from './src/components/CustomTextInput/CustomTextInput'
-
-// const { Octokit } = require("@octokit/rest");
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 

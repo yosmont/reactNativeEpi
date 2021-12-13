@@ -85,7 +85,7 @@ const UsersList = (props) => {
 		});
 	}
 
-	function updateRepoWatch() {
+	function updateListRepoWatch() {
 		octokit.rest.activity.listStargazersForRepo({
 			per_page: perPage,
 			page: page,
@@ -96,7 +96,7 @@ const UsersList = (props) => {
 		});
 	}
 
-	function updateRepoStar() {
+	function updateListRepoStar() {
 		octokit.rest.activity.listWatchersForRepo({
 			per_page: perPage,
 			page: page,
@@ -107,7 +107,7 @@ const UsersList = (props) => {
 		});
 	}
 
-	useEffect(() => {
+	function updateListSwitch() {
 		switch (type) {
 			case "MyFollowing":
 				updateListMyFollowing();
@@ -122,12 +122,16 @@ const UsersList = (props) => {
 				updateListFollower();
 				break;
 			case "RepoWatch":
-				updateRepoWatch();
+				updateListRepoWatch();
 				break;
 			case "RepoStar":
-				updateRepoStar();
+				updateListRepoStar();
 				break;
 		}
+	}
+
+	useEffect(() => {
+		updateListSwitch();
     }, [])
 
 	return (
@@ -139,26 +143,7 @@ const UsersList = (props) => {
 							//scrollRef.current?.scrollTo({ y: 0, animated: true });
 							setPage(page + 1);
 							if (maxPage == -1 || page <= maxPage) {
-								switch (type) {
-									case "MyFollowing":
-										updateListMyFollowing();
-										break;
-									case "MyFollower":
-										updateListMyFollower();
-										break;
-									case "Following":
-										updateListFollowing();
-										break;
-									case "Follower":
-										updateListFollower();
-										break;
-									case "RepoWatch":
-										updateRepoWatch();
-										break;
-									case "RepoStar":
-										updateRepoStar();
-										break;
-								}
+								updateListSwitch();
 							}
 						}
 					}

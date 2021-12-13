@@ -27,6 +27,7 @@ const ReposList = (props) => {
 	const octokit = props.route.params.octokit;
 	const type = props.route.params.type;
 	const username = props.route.params.username;
+	const repoName = props.route.params.repoName;
     const [recylerViewUpdate, setRecylerViewUpdate] = React.useState(undefined);
 	const [page, setPage] = React.useState(0);
 	const [maxPage, setMaxPage] = React.useState(-1);
@@ -110,7 +111,18 @@ const ReposList = (props) => {
 		});
 	}
 
-	useEffect(() => {
+	function updateListFork() {
+		octokit.rest.repos.listForks({
+			per_page: perPage,
+			page: page,
+			owner: username,
+			repo: repoName,
+		}).then((result) => {
+			updateList(result);
+		});
+	}
+
+	function updateListSwitch() {
 		switch (type) {
 			case "MyRepos":
 				updateListMyRepos();
@@ -130,7 +142,14 @@ const ReposList = (props) => {
 			case "Watch":
 				updateListWatch();
 				break;
+			case "Fork":
+				updateListFork();
+				break;
 		}
+	}
+
+	useEffect(() => {
+		updateListSwitch();
     }, [])
 
 	return (
@@ -142,26 +161,7 @@ const ReposList = (props) => {
 							//scrollRef.current?.scrollTo({ y: 0, animated: true });
 							setPage(page + 1);
 							if (maxPage == -1 || page <= maxPage) {
-								switch (type) {
-									case "MyRepos":
-										updateListMyRepos();
-										break;
-									case "MyStar":
-										updateListMyStar();
-										break;
-									case "MyWatch":
-										updateListMyWatch();
-										break;
-									case "Repos":
-										updateListRepos();
-										break;
-									case "Star":
-										updateListStar();
-										break;
-									case "Watch":
-										updateListWatch();
-										break;
-								}
+								updateListSwitch();
 							}
 						}
 					}

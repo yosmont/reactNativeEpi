@@ -104,7 +104,7 @@ const Repository = (props) => {
 
               <ButtonWithIcon
                 Text={'Forks (' + watchers.length + ')'}
-                onPress={() => GoToUserList(props.route.params.navigation, props.route.params.octokit, repo, "RepoWatch")}>
+                onPress={() => GoToReposList(props.route.params.navigation, props.route.params.octokit, repo, "Fork")}>
                 <FontAwesome name="code-fork" size={15} color="white" />
               </ButtonWithIcon>
 
@@ -165,6 +165,10 @@ const getCode = (navigation, octokit, repo, branches, path) => {
 
 function GoToUserList(navigation, octokit, repo, type) {
   navigation.push('UsersList', { navigation: navigation, octokit: octokit, type: type, username: repo.owner.login, repoName: repo.name });
+}
+
+function GoToReposList(navigation, octokit, repo, type) {
+    navigation.push('ReposList', { navigation: navigation, octokit: octokit, type: type, username: repo.owner.login, repoName: repo.name });
 }
 
 const deleteRepo = (navigation, octokit, repo) => {

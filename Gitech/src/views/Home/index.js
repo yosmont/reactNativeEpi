@@ -84,7 +84,7 @@ const Home = (props) => {
                           <UserWrapper>
                               <FullWidthCustomButton onPress={() => GoToMyUserView(props.navigation, octokit)} Text="My profile" />
                               <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyRepos")} Text={reposBtnTxt} />
-                              <FullWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} />
+                              {/*<FullWidthCustomButton onPress={() => GoToMyIssues(props.navigation, octokit)} Text={issuesBtnTxt} />*/}
                               {/*<FullWidthCustomButton onPress={() => NotImplemented(props.navigation, octokit)} Text="My pull request" />*/}
                               <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyStar")} Text={starredBtnTxt} />
                               <FullWidthCustomButton onPress={() => GoToReposList(props.navigation, octokit, "MyWatch")} Text={watchedBtnTxt} />
